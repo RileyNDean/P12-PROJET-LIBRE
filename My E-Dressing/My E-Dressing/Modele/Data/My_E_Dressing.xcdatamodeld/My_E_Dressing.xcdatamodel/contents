@@ -18,5 +18,13 @@
         <attribute name="title" attributeType="String"/>
         <attribute name="wearCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dressing" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dressing" inverseName="garments" inverseEntity="Dressing"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GarmentPhoto" inverseName="garment" inverseEntity="GarmentPhoto"/>
+    </entity>
+    <entity name="GarmentPhoto" representedClassName="GarmentPhoto" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="orderIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="path" attributeType="String"/>
+        <relationship name="garment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Garment" inverseName="photos" inverseEntity="Garment"/>
     </entity>
 </model>
