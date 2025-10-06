@@ -22,14 +22,41 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Dressing.createdAt, ascending: true)],
         animation: .default)
     private var dressings: FetchedResults<Dressing>
+    
+    @EnvironmentObject private var lang: LanguageController
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
-                ForEach(dressings) { dressing in
-                    NavigationLink {
-                        Text("Created at \((dressing.createdAt ?? Date()), formatter: dateFormatter)")
-                    } label: {
+                Section("Langue / Language") {
+                    Picker("Language", selection: Binding(get: { lang.selected }, set: { lang.setLanguage($0) })) {
+                        ForEach(AppLanguage.allCases) { option in
+                            Text(option.label).tag(option)
+                        }
+                    }
+#if os(iOS)
+                    .pickerStyle(.segmented)
+#endif
+
+                    NavigationLink("Ouvrir les réglages de langue", destination: LanguageSettingsView())
+
+                    HStack {
+                        Text("Actuelle :")
+                        Spacer()
+                        Text(lang.selected.label).foregroundStyle(.secondary)
+                    }
+                    HStack {
+                        Text("Locale :")
+                        Spacer()
+                        Text(lang.currentLocale.identifier).foregroundStyle(.secondary)
+                    }
+                }
+
+                Section("Dressings") {
+                    if dressings.isEmpty {
+                        Text("Aucun dressing").foregroundStyle(.secondary)
+                    }
+                    ForEach(dressings) { dressing in
                         HStack {
                             Text(dressing.name ?? "Unnamed dressing")
                             Spacer()
@@ -37,23 +64,18 @@ struct ContentView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
+                    .onDelete(perform: deleteDressings)
                 }
-                .onDelete(perform: deleteDressings)
             }
+            .navigationTitle("My E‑Dressing")
             .toolbar {
 #if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
+                ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
 #endif
-                ToolbarItem {
-                    Button(action: addDressing) {
-                        Label("Add Dressing", systemImage: "plus")
-                    }
-                }
+                ToolbarItem { Button(action: addDressing) { Label("Add Dressing", systemImage: "plus") } }
             }
-            Text("Sélectionnez un dressing")
         }
+        .onAppear { syncLanguageFromDefaults() }
     }
 
     /// Creates a new `Dressing` with default values and saves it to Core Data.
@@ -86,6 +108,15 @@ struct ContentView: View {
             }
         }
     }
+    
+    /// Syncs LanguageController with the persisted UserDefaults value (used after returning from settings).
+    private func syncLanguageFromDefaults() {
+        if let raw = UserDefaults.standard.string(forKey: "appLanguage"),
+           let stored = AppLanguage(rawValue: raw),
+           stored != lang.selected {
+            lang.setLanguage(stored)
+        }
+    }
 }
 
 /// Shared date formatter for displaying creation dates.
@@ -97,5 +128,9 @@ private let dateFormatter: DateFormatter = {
 }()
 
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    let lang = LanguageController()
+    return ContentView()
+        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        .environment(\.locale, lang.currentLocale)
+        .environmentObject(lang)
 }

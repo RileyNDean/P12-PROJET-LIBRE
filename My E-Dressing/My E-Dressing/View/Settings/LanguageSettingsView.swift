@@ -29,6 +29,6 @@ struct LanguageSettingsView: View {
                 .onTapGesture { appLang = lang.rawValue }
             }
         }
-        .navigationTitle(String(localized: "name")) // example of localized key usage
+        .navigationTitle(String(localized: "name")) 
     }
 }
