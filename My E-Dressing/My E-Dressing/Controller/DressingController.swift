@@ -2,27 +2,30 @@
 //  DressingController.swift
 //  My E-Dressing
 //
-//  Created by Dhayan Bourguignon on 06/10/2025.
-//
 
 import CoreData
 
-/// Coordinates all CRUD operations for `Dressing`.
-/// No UI. Works only with an injected NSManagedObjectContext.
+/// Coordinates CRUD operations for `Dressing` entities.
+///
+/// This controller is UI-agnostic and operates on a provided `NSManagedObjectContext`.
+/// Use a main-thread context when called from UI, or a background context for batch work.
 final class DressingController {
 
+    /// The Core Data context used for reading and writing `Dressing` objects.
     private let managedObjectContext: NSManagedObjectContext
 
-    /// - Parameter managedObjectContext: context bound to the UI (main) or a background context.
+    /// Creates a controller bound to a given Core Data context.
+    /// - Parameter managedObjectContext: A main or background `NSManagedObjectContext`.
     init(managedObjectContext: NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
     }
 
     // MARK: - Create
 
-    /// Creates a new `Dressing`.
-    /// - Parameter name: non-empty name.
-    /// - Returns: the persisted `Dressing`.
+    /// Creates and persists a new `Dressing`.
+    /// - Parameter name: Non-empty name for the dressing.
+    /// - Returns: The newly created and saved `Dressing` instance.
+    /// - Throws: `ValidationError` if the name is empty, or any Core Data save error.
     @discardableResult
     func create(name: String) throws -> Dressing {
         let validatedName = try Validation.nonEmpty(name, field: "Name")
@@ -36,21 +39,28 @@ final class DressingController {
 
     // MARK: - Read (helpers)
 
-    /// Fetches all dressings sorted by creation date.
+    /// Fetches all `Dressing` objects sorted by creation date.
+    /// - Returns: A chronologically ascending array of `Dressing`.
+    /// - Throws: Any Core Data fetch error.
     func fetchAll() throws -> [Dressing] {
         let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Dressing.createdAt, ascending: true)]
         return try managedObjectContext.fetch(request)
     }
 
-    /// Returns the first dressing if any.
+    /// Returns the first available `Dressing`, if any.
+    /// - Returns: The first `Dressing` or `nil` if none exist.
+    /// - Throws: Any Core Data fetch error.
     func first() throws -> Dressing? {
         let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
         request.fetchLimit = 1
         return try managedObjectContext.fetch(request).first
     }
 
-    /// Finds a dressing by UUID.
+    /// Finds a `Dressing` by its unique identifier.
+    /// - Parameter identifier: The `UUID` of the requested dressing.
+    /// - Returns: The matching `Dressing` or `nil` if not found.
+    /// - Throws: Any Core Data fetch error.
     func find(by identifier: UUID) throws -> Dressing? {
         let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", identifier as CVarArg)
@@ -60,7 +70,11 @@ final class DressingController {
 
     // MARK: - Update
 
-    /// Renames an existing dressing.
+    /// Renames an existing dressing and persists the change.
+    /// - Parameters:
+    ///   - dressing: The `Dressing` to rename.
+    ///   - newName: The new non-empty name.
+    /// - Throws: `ValidationError` if the name is empty, or any Core Data save error.
     func rename(_ dressing: Dressing, to newName: String) throws {
         dressing.name = try Validation.nonEmpty(newName, field: "Name")
         try managedObjectContext.save()
@@ -68,9 +82,12 @@ final class DressingController {
 
     // MARK: - Delete
 
-    /// Deletes a dressing. Its garments are cascade-deleted per model rule.
+    /// Deletes a dressing. Related garments are cascade-deleted per the data model.
+    /// - Parameter dressing: The `Dressing` to remove.
+    /// - Throws: Any Core Data save error.
     func delete(_ dressing: Dressing) throws {
         managedObjectContext.delete(dressing)
         try managedObjectContext.save()
     }
 }
+

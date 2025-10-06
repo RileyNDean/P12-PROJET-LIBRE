@@ -1,3 +1,4 @@
+// Core Data stack used by the application and previews.
 import CoreData
 
 /// Central Core Data stack used by the app.
@@ -7,14 +8,14 @@ struct PersistenceController {
     static let shared = PersistenceController()
 
     /// In-memory stack for SwiftUI previews and tests.
-    /// No data is written to disk; store lives only for the process lifetime.
+    /// No data is written to disk; the store lives only for the process lifetime.
     @MainActor
     static let preview: PersistenceController = {
         let controller = PersistenceController(inMemory: true)
         let viewContext = controller.container.viewContext
 
-        // Optional seed data for previews:
-        // Create a sample Dressing so UI has something to render in previews.
+        // Optional seed data for previews: create a sample dressing
+        // so the UI has something to render in previews.
         let sample = Dressing(context: viewContext)
         sample.id = UUID()
         sample.name = "My Dressing"
@@ -33,7 +34,7 @@ struct PersistenceController {
     let container: NSPersistentContainer
 
     /// Builds the Core Data stack.
-    /// - Parameter inMemory: when true, stores everything in RAM (/dev/null), useful for previews/tests.
+    /// - Parameter inMemory: When true, stores everything in RAM ("/dev/null"), useful for previews/tests.
     init(inMemory: Bool = false) {
         // Must exactly match the .xcdatamodeld name
         container = NSPersistentContainer(name: "My_E_Dressing")

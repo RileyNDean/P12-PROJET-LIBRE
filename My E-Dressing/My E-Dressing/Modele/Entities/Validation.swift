@@ -1,8 +1,5 @@
 //
-//  Validation.swift
-//  My E-Dressing
-//
-//  Created by Dhayan Bourguignon on 06/10/2025.
+// Validation helpers to ensure non-empty input and optional storage.
 //
 
 import Foundation
@@ -17,11 +14,11 @@ enum Validation {
     /// Returns a trimmed non-empty string or throws.
     /// - Parameters:
     ///   - value: optional input
-    ///   - field: field name for error messages
-    static func nonEmpty(_ value: String?, field: String) throws -> String {
+    ///   - fieldName: field name for error messages
+    static func nonEmpty(_ value: String?, fieldName: String) throws -> String {
         let trimmedValue = (value ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedValue.isEmpty else {
-            throw ValidationError(message: "\(field) is required")
+            throw ValidationError(message: "\(fieldName) is required")
         }
         return trimmedValue
     }

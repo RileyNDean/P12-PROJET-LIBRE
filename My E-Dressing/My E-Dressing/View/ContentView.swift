@@ -5,14 +5,12 @@
 //  Created by Dhayan Bourguignon on 06/10/2025.
 //
 
+// Root view displaying dressings from Core Data and language settings.
+
 import SwiftUI
 import CoreData
 
-/// Root view displaying the list of `Dressing` objects from Core Data.
-/// In MVC terms, this view is the "View" layer: it renders UI and forwards
-/// user intents (add/delete) to the model via the managed object context.
-
-/// The main list screen for dressings.
+/// Root view listing `Dressing` objects and providing language controls.
 struct ContentView: View {
     /// Core Data managed object context injected via the environment.
     @Environment(\.managedObjectContext) private var viewContext
@@ -109,7 +107,7 @@ struct ContentView: View {
         }
     }
     
-    /// Syncs LanguageController with the persisted UserDefaults value (used after returning from settings).
+    /// Synchronizes `LanguageController` with the stored UserDefaults value.
     private func syncLanguageFromDefaults() {
         if let raw = UserDefaults.standard.string(forKey: "appLanguage"),
            let stored = AppLanguage(rawValue: raw),

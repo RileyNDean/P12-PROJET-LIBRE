@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-/// Displays a simple list allowing the user to select the app language.
-/// The available languages are defined by `AppLanguage` (see AppLanguage.swift).
-
-/// A settings screen to choose the preferred app language.
+/// Settings screen to choose the preferred app language.
+/// The available languages are defined by `AppLanguage`.
 struct LanguageSettingsView: View {
     /// Persisted app language key stored in UserDefaults via AppStorage.
     @AppStorage("appLanguage") private var appLang: String = AppLanguage.system.rawValue
@@ -18,17 +16,18 @@ struct LanguageSettingsView: View {
     /// The view body rendering a selectable list of languages.
     var body: some View {
         List {
-            ForEach(AppLanguage.allCases) { lang in
+            ForEach(AppLanguage.allCases) { language in
                 HStack {
-                    Text(lang.label)
+                    Text(language.label)
                     Spacer()
-                    if appLang == lang.rawValue { Image(systemName: "checkmark") }
+                    if appLang == language.rawValue { Image(systemName: "checkmark") }
                 }
                 .contentShape(Rectangle())
                 // Update the persisted language when the row is tapped.
-                .onTapGesture { appLang = lang.rawValue }
+                .onTapGesture { appLang = language.rawValue }
             }
         }
         .navigationTitle(String(localized: "name")) 
     }
 }
+

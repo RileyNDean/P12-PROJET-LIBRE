@@ -18,3 +18,19 @@ status_to_sell = "À vendre";
 status_to_recycle = "À recycler";
 settings_language_title = "Langue";
 
+// Additional keys used by GarmentsFormView
+edit_garment = "Modifier le vêtement";
+photos_title = "Photos";
+photo_required = "Au moins une photo est requise";
+information_title = "Informations";
+title_required_placeholder = "Titre *";
+brand_placeholder = "Marque";
+color_placeholder = "Couleur";
+size_placeholder = "Taille";
+category_placeholder = "Catégorie";
+status_title = "Statut";
+notes_placeholder = "Notes";
+error_title = "Erreur";
+ok = "OK";
+unexpected_error = "Erreur inattendue";
+default_dressing_name = "Mon dressing";
