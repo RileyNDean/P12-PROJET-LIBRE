@@ -7,40 +7,40 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
-		539B9FC72E93BC3C000BD78B /* PBXContainerItemProxy */ = {
+		539BA01F2E93C3B5000BD78B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 539B9FAC2E93BC3A000BD78B /* Project object */;
+			containerPortal = 539BA0042E93C3B5000BD78B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 539B9FB32E93BC3A000BD78B;
+			remoteGlobalIDString = 539BA00B2E93C3B5000BD78B;
 			remoteInfo = "My E-Dressing";
 		};
-		539B9FD12E93BC3C000BD78B /* PBXContainerItemProxy */ = {
+		539BA0292E93C3B5000BD78B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 539B9FAC2E93BC3A000BD78B /* Project object */;
+			containerPortal = 539BA0042E93C3B5000BD78B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 539B9FB32E93BC3A000BD78B;
+			remoteGlobalIDString = 539BA00B2E93C3B5000BD78B;
 			remoteInfo = "My E-Dressing";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		539B9FB42E93BC3A000BD78B /* My E-Dressing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My E-Dressing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		539B9FC62E93BC3C000BD78B /* My E-DressingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My E-DressingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		539B9FD02E93BC3C000BD78B /* My E-DressingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My E-DressingUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		539BA00C2E93C3B5000BD78B /* My E-Dressing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My E-Dressing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		539BA01E2E93C3B5000BD78B /* My E-DressingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My E-DressingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		539BA0282E93C3B5000BD78B /* My E-DressingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My E-DressingUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		539B9FB62E93BC3A000BD78B /* My E-Dressing */ = {
+		539BA00E2E93C3B5000BD78B /* My E-Dressing */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "My E-Dressing";
 			sourceTree = "<group>";
 		};
-		539B9FC92E93BC3C000BD78B /* My E-DressingTests */ = {
+		539BA0212E93C3B5000BD78B /* My E-DressingTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "My E-DressingTests";
 			sourceTree = "<group>";
 		};
-		539B9FD32E93BC3C000BD78B /* My E-DressingUITests */ = {
+		539BA02B2E93C3B5000BD78B /* My E-DressingUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "My E-DressingUITests";
 			sourceTree = "<group>";
@@ -48,21 +48,21 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		539B9FB12E93BC3A000BD78B /* Frameworks */ = {
+		539BA0092E93C3B5000BD78B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		539B9FC32E93BC3C000BD78B /* Frameworks */ = {
+		539BA01B2E93C3B5000BD78B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		539B9FCD2E93BC3C000BD78B /* Frameworks */ = {
+		539BA0252E93C3B5000BD78B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -72,22 +72,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		539B9FAB2E93BC3A000BD78B = {
+		539BA0032E93C3B5000BD78B = {
 			isa = PBXGroup;
 			children = (
-				539B9FB62E93BC3A000BD78B /* My E-Dressing */,
-				539B9FC92E93BC3C000BD78B /* My E-DressingTests */,
-				539B9FD32E93BC3C000BD78B /* My E-DressingUITests */,
-				539B9FB52E93BC3A000BD78B /* Products */,
+				539BA00E2E93C3B5000BD78B /* My E-Dressing */,
+				539BA0212E93C3B5000BD78B /* My E-DressingTests */,
+				539BA02B2E93C3B5000BD78B /* My E-DressingUITests */,
+				539BA00D2E93C3B5000BD78B /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		539B9FB52E93BC3A000BD78B /* Products */ = {
+		539BA00D2E93C3B5000BD78B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				539B9FB42E93BC3A000BD78B /* My E-Dressing.app */,
-				539B9FC62E93BC3C000BD78B /* My E-DressingTests.xctest */,
-				539B9FD02E93BC3C000BD78B /* My E-DressingUITests.xctest */,
+				539BA00C2E93C3B5000BD78B /* My E-Dressing.app */,
+				539BA01E2E93C3B5000BD78B /* My E-DressingTests.xctest */,
+				539BA0282E93C3B5000BD78B /* My E-DressingUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,134 +95,135 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		539B9FB32E93BC3A000BD78B /* My E-Dressing */ = {
+		539BA00B2E93C3B5000BD78B /* My E-Dressing */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 539B9FDA2E93BC3C000BD78B /* Build configuration list for PBXNativeTarget "My E-Dressing" */;
+			buildConfigurationList = 539BA0322E93C3B5000BD78B /* Build configuration list for PBXNativeTarget "My E-Dressing" */;
 			buildPhases = (
-				539B9FB02E93BC3A000BD78B /* Sources */,
-				539B9FB12E93BC3A000BD78B /* Frameworks */,
-				539B9FB22E93BC3A000BD78B /* Resources */,
+				539BA0082E93C3B5000BD78B /* Sources */,
+				539BA0092E93C3B5000BD78B /* Frameworks */,
+				539BA00A2E93C3B5000BD78B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				539B9FB62E93BC3A000BD78B /* My E-Dressing */,
+				539BA00E2E93C3B5000BD78B /* My E-Dressing */,
 			);
 			name = "My E-Dressing";
 			packageProductDependencies = (
 			);
 			productName = "My E-Dressing";
-			productReference = 539B9FB42E93BC3A000BD78B /* My E-Dressing.app */;
+			productReference = 539BA00C2E93C3B5000BD78B /* My E-Dressing.app */;
 			productType = "com.apple.product-type.application";
 		};
-		539B9FC52E93BC3C000BD78B /* My E-DressingTests */ = {
+		539BA01D2E93C3B5000BD78B /* My E-DressingTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 539B9FDD2E93BC3C000BD78B /* Build configuration list for PBXNativeTarget "My E-DressingTests" */;
+			buildConfigurationList = 539BA0352E93C3B5000BD78B /* Build configuration list for PBXNativeTarget "My E-DressingTests" */;
 			buildPhases = (
-				539B9FC22E93BC3C000BD78B /* Sources */,
-				539B9FC32E93BC3C000BD78B /* Frameworks */,
-				539B9FC42E93BC3C000BD78B /* Resources */,
+				539BA01A2E93C3B5000BD78B /* Sources */,
+				539BA01B2E93C3B5000BD78B /* Frameworks */,
+				539BA01C2E93C3B5000BD78B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				539B9FC82E93BC3C000BD78B /* PBXTargetDependency */,
+				539BA0202E93C3B5000BD78B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				539B9FC92E93BC3C000BD78B /* My E-DressingTests */,
+				539BA0212E93C3B5000BD78B /* My E-DressingTests */,
 			);
 			name = "My E-DressingTests";
 			packageProductDependencies = (
 			);
 			productName = "My E-DressingTests";
-			productReference = 539B9FC62E93BC3C000BD78B /* My E-DressingTests.xctest */;
+			productReference = 539BA01E2E93C3B5000BD78B /* My E-DressingTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		539B9FCF2E93BC3C000BD78B /* My E-DressingUITests */ = {
+		539BA0272E93C3B5000BD78B /* My E-DressingUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 539B9FE02E93BC3C000BD78B /* Build configuration list for PBXNativeTarget "My E-DressingUITests" */;
+			buildConfigurationList = 539BA0382E93C3B5000BD78B /* Build configuration list for PBXNativeTarget "My E-DressingUITests" */;
 			buildPhases = (
-				539B9FCC2E93BC3C000BD78B /* Sources */,
-				539B9FCD2E93BC3C000BD78B /* Frameworks */,
-				539B9FCE2E93BC3C000BD78B /* Resources */,
+				539BA0242E93C3B5000BD78B /* Sources */,
+				539BA0252E93C3B5000BD78B /* Frameworks */,
+				539BA0262E93C3B5000BD78B /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				539B9FD22E93BC3C000BD78B /* PBXTargetDependency */,
+				539BA02A2E93C3B5000BD78B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				539B9FD32E93BC3C000BD78B /* My E-DressingUITests */,
+				539BA02B2E93C3B5000BD78B /* My E-DressingUITests */,
 			);
 			name = "My E-DressingUITests";
 			packageProductDependencies = (
 			);
 			productName = "My E-DressingUITests";
-			productReference = 539B9FD02E93BC3C000BD78B /* My E-DressingUITests.xctest */;
+			productReference = 539BA0282E93C3B5000BD78B /* My E-DressingUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		539B9FAC2E93BC3A000BD78B /* Project object */ = {
+		539BA0042E93C3B5000BD78B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
-					539B9FB32E93BC3A000BD78B = {
+					539BA00B2E93C3B5000BD78B = {
 						CreatedOnToolsVersion = 26.0.1;
 					};
-					539B9FC52E93BC3C000BD78B = {
+					539BA01D2E93C3B5000BD78B = {
 						CreatedOnToolsVersion = 26.0.1;
-						TestTargetID = 539B9FB32E93BC3A000BD78B;
+						TestTargetID = 539BA00B2E93C3B5000BD78B;
 					};
-					539B9FCF2E93BC3C000BD78B = {
+					539BA0272E93C3B5000BD78B = {
 						CreatedOnToolsVersion = 26.0.1;
-						TestTargetID = 539B9FB32E93BC3A000BD78B;
+						TestTargetID = 539BA00B2E93C3B5000BD78B;
 					};
 				};
 			};
-			buildConfigurationList = 539B9FAF2E93BC3A000BD78B /* Build configuration list for PBXProject "My E-Dressing" */;
-			developmentRegion = en;
+			buildConfigurationList = 539BA0072E93C3B5000BD78B /* Build configuration list for PBXProject "My E-Dressing" */;
+			developmentRegion = fr;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
-			mainGroup = 539B9FAB2E93BC3A000BD78B;
+			mainGroup = 539BA0032E93C3B5000BD78B;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 539B9FB52E93BC3A000BD78B /* Products */;
+			productRefGroup = 539BA00D2E93C3B5000BD78B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				539B9FB32E93BC3A000BD78B /* My E-Dressing */,
-				539B9FC52E93BC3C000BD78B /* My E-DressingTests */,
-				539B9FCF2E93BC3C000BD78B /* My E-DressingUITests */,
+				539BA00B2E93C3B5000BD78B /* My E-Dressing */,
+				539BA01D2E93C3B5000BD78B /* My E-DressingTests */,
+				539BA0272E93C3B5000BD78B /* My E-DressingUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		539B9FB22E93BC3A000BD78B /* Resources */ = {
+		539BA00A2E93C3B5000BD78B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		539B9FC42E93BC3C000BD78B /* Resources */ = {
+		539BA01C2E93C3B5000BD78B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		539B9FCE2E93BC3C000BD78B /* Resources */ = {
+		539BA0262E93C3B5000BD78B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -232,21 +233,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		539B9FB02E93BC3A000BD78B /* Sources */ = {
+		539BA0082E93C3B5000BD78B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		539B9FC22E93BC3C000BD78B /* Sources */ = {
+		539BA01A2E93C3B5000BD78B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		539B9FCC2E93BC3C000BD78B /* Sources */ = {
+		539BA0242E93C3B5000BD78B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -256,20 +257,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		539B9FC82E93BC3C000BD78B /* PBXTargetDependency */ = {
+		539BA0202E93C3B5000BD78B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 539B9FB32E93BC3A000BD78B /* My E-Dressing */;
-			targetProxy = 539B9FC72E93BC3C000BD78B /* PBXContainerItemProxy */;
+			target = 539BA00B2E93C3B5000BD78B /* My E-Dressing */;
+			targetProxy = 539BA01F2E93C3B5000BD78B /* PBXContainerItemProxy */;
 		};
-		539B9FD22E93BC3C000BD78B /* PBXTargetDependency */ = {
+		539BA02A2E93C3B5000BD78B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 539B9FB32E93BC3A000BD78B /* My E-Dressing */;
-			targetProxy = 539B9FD12E93BC3C000BD78B /* PBXContainerItemProxy */;
+			target = 539BA00B2E93C3B5000BD78B /* My E-Dressing */;
+			targetProxy = 539BA0292E93C3B5000BD78B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		539B9FD82E93BC3C000BD78B /* Debug */ = {
+		539BA0302E93C3B5000BD78B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -330,7 +331,7 @@
 			};
 			name = Debug;
 		};
-		539B9FD92E93BC3C000BD78B /* Release */ = {
+		539BA0312E93C3B5000BD78B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -383,7 +384,7 @@
 			};
 			name = Release;
 		};
-		539B9FDB2E93BC3C000BD78B /* Debug */ = {
+		539BA0332E93C3B5000BD78B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -425,7 +426,7 @@
 			};
 			name = Debug;
 		};
-		539B9FDC2E93BC3C000BD78B /* Release */ = {
+		539BA0342E93C3B5000BD78B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -467,7 +468,7 @@
 			};
 			name = Release;
 		};
-		539B9FDE2E93BC3C000BD78B /* Debug */ = {
+		539BA0362E93C3B5000BD78B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -492,7 +493,7 @@
 			};
 			name = Debug;
 		};
-		539B9FDF2E93BC3C000BD78B /* Release */ = {
+		539BA0372E93C3B5000BD78B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -517,7 +518,7 @@
 			};
 			name = Release;
 		};
-		539B9FE12E93BC3C000BD78B /* Debug */ = {
+		539BA0392E93C3B5000BD78B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -541,7 +542,7 @@
 			};
 			name = Debug;
 		};
-		539B9FE22E93BC3C000BD78B /* Release */ = {
+		539BA03A2E93C3B5000BD78B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -568,43 +569,43 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		539B9FAF2E93BC3A000BD78B /* Build configuration list for PBXProject "My E-Dressing" */ = {
+		539BA0072E93C3B5000BD78B /* Build configuration list for PBXProject "My E-Dressing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				539B9FD82E93BC3C000BD78B /* Debug */,
-				539B9FD92E93BC3C000BD78B /* Release */,
+				539BA0302E93C3B5000BD78B /* Debug */,
+				539BA0312E93C3B5000BD78B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		539B9FDA2E93BC3C000BD78B /* Build configuration list for PBXNativeTarget "My E-Dressing" */ = {
+		539BA0322E93C3B5000BD78B /* Build configuration list for PBXNativeTarget "My E-Dressing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				539B9FDB2E93BC3C000BD78B /* Debug */,
-				539B9FDC2E93BC3C000BD78B /* Release */,
+				539BA0332E93C3B5000BD78B /* Debug */,
+				539BA0342E93C3B5000BD78B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		539B9FDD2E93BC3C000BD78B /* Build configuration list for PBXNativeTarget "My E-DressingTests" */ = {
+		539BA0352E93C3B5000BD78B /* Build configuration list for PBXNativeTarget "My E-DressingTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				539B9FDE2E93BC3C000BD78B /* Debug */,
-				539B9FDF2E93BC3C000BD78B /* Release */,
+				539BA0362E93C3B5000BD78B /* Debug */,
+				539BA0372E93C3B5000BD78B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		539B9FE02E93BC3C000BD78B /* Build configuration list for PBXNativeTarget "My E-DressingUITests" */ = {
+		539BA0382E93C3B5000BD78B /* Build configuration list for PBXNativeTarget "My E-DressingUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				539B9FE12E93BC3C000BD78B /* Debug */,
-				539B9FE22E93BC3C000BD78B /* Release */,
+				539BA0392E93C3B5000BD78B /* Debug */,
+				539BA03A2E93C3B5000BD78B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 539B9FAC2E93BC3A000BD78B /* Project object */;
+	rootObject = 539BA0042E93C3B5000BD78B /* Project object */;
 }

@@ -1,0 +1,18 @@
+//
+//  Localizable.strings
+//  My E-Dressing
+//
+//  Created by Dhayan Bourguignon on 06/10/2025.
+//
+
+dressings_title = "Dressings";
+add_title = "Add";
+new_dressing = "New Dressing";
+name = "Name";
+save = "Save";
+cancel = "Cancel";
+new_garment = "New Garment";
+status_kept = "Kept";
+status_to_give = "To give";
+status_to_sell = "To sell";
+status_to_recycle = "To recycle";

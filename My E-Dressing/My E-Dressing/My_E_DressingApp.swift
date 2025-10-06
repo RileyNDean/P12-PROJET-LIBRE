@@ -5,20 +5,16 @@
 //  Created by Dhayan Bourguignon on 06/10/2025.
 //
 
-// This file contains the main entry point of the MEDressing app and sets up the Core Data environment.
-
 import SwiftUI
 import CoreData
 
 @main
-/// Application entry point for the MEDressing app.
-struct MEDressingApp: App {
-    // Shared Core Data stack used across the app.
+struct My_E_DressingApp: App {
     let persistenceController = PersistenceController.shared
 
     var body: some Scene {
         WindowGroup {
-            RootView()
+            ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
