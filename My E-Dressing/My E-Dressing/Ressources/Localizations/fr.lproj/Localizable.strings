@@ -16,4 +16,5 @@ status_kept = "Conservé";
 status_to_give = "À donner";
 status_to_sell = "À vendre";
 status_to_recycle = "À recycler";
+settings_language_title = "Langue";
 

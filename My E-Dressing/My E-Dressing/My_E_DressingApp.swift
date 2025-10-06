@@ -11,11 +11,14 @@ import CoreData
 @main
 struct My_E_DressingApp: App {
     let persistenceController = PersistenceController.shared
+    @StateObject private var lang = LanguageController()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.locale, lang.currentLocale)   
+                .environmentObject(lang)
         }
     }
 }
