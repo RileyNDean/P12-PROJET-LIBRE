@@ -10,19 +10,15 @@ import CoreData
 
 /// Application entry point.
 /// Injects the Core Data `viewContext` and the `LanguageController` into the SwiftUI environment.
+@main
 struct My_E_DressingApp: App {
-    /// Shared Core Data stack for the application.
-    let persistenceController = PersistenceController.shared
-    
-    /// Global language controller that manages the current app locale.
-    @StateObject private var lang = LanguageController()
-
+    let pc = PersistenceController.shared
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environment(\.locale, lang.currentLocale)   
-                .environmentObject(lang)
+            NavigationStack {
+                DressingListView()
+            }
+            .environment(\.managedObjectContext, pc.container.viewContext)
         }
     }
 }

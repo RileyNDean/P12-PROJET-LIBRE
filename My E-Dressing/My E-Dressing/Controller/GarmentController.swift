@@ -16,6 +16,8 @@ final class GarmentController {
 
     /// Creates a controller bound to a given Core Data context.
     /// - Parameter managedObjectContext: A main or background `NSManagedObjectContext`.
+    private let managedObjectContext: NSManagedObjectContext
+
     init(managedObjectContext: NSManagedObjectContext) { self.managedObjectContext = managedObjectContext }
 
     // MARK: - Create (requires ≥1 photo)
@@ -43,7 +45,7 @@ final class GarmentController {
         status: GarmentStatus,
         photos: [UIImage]
     ) throws -> Garment {
-        let validatedTitle = try Validation.nonEmpty(title, field: "Title")
+        let validatedTitle = try Validation.nonEmpty(title, fieldName: "Title")
         guard !photos.isEmpty else { throw ValidationError(message: "At least one photo is required") }
 
         let garment = Garment(context: managedObjectContext)
@@ -85,7 +87,7 @@ final class GarmentController {
         notes: String?,
         status: GarmentStatus
     ) throws {
-        garment.title = try Validation.nonEmpty(title, field: "Title")
+        garment.title = try Validation.nonEmpty(title, fieldName: "Title")
         garment.brand = brand?.nilIfEmpty
         garment.color = color?.nilIfEmpty
         garment.size = size?.nilIfEmpty

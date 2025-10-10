@@ -5,7 +5,7 @@
 //  Created by Dhayan Bourguignon on 06/10/2025.
 //
 
-// Form view to create or edit a garment with multiple photos.
+// Form to create or edit a garment with multiple photos.
 
 import SwiftUI
 import CoreData
@@ -116,12 +116,13 @@ struct GarmentFormView: View {
                 }
             }
             .sheet(isPresented: $isShowingPicker) {
-                // The picker fills `pickerSelectedImages`; we convert to `PhotoItem` on change.
+                // Image picker populates `pickerSelectedImages`; we map them to `PhotoItem` entries on change.
                 ImagePickerMulti(images: $pickerSelectedImages)
             }
             .onChange(of: pickerSelectedImages) { _, selectedImages in
                 let newItems = selectedImages.map { PhotoItem.new(image: $0) }
                 workingPhotoItems.append(contentsOf: newItems)
+                // Clear the buffer so the sheet can be reused without duplicating items.
                 pickerSelectedImages.removeAll()
             }
             .onAppear(perform: loadIfEditing)

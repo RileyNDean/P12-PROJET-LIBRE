@@ -39,9 +39,11 @@ struct ImagePickerMulti: UIViewControllerRepresentable {
                 }
             }
             group.notify(queue: .main) {
+                self.parent.images.append(contentsOf: loaded)
                 let newItems = loaded.map { PhotoItem.new(image: $0) }
                 self.parent.imagesHandler?(newItems)
             }
+
         }
     }
 }
