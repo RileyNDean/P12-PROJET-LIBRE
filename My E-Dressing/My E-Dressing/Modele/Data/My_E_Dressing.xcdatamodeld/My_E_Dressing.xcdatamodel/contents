@@ -16,7 +16,7 @@
         <attribute name="size" optional="YES" attributeType="String"/>
         <attribute name="statusRaw" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String"/>
-        <attribute name="wearCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="wearCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="dressing" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Dressing" inverseName="garments" inverseEntity="Dressing"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GarmentPhoto" inverseName="garment" inverseEntity="GarmentPhoto"/>
     </entity>

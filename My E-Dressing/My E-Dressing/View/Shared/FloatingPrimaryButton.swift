@@ -8,33 +8,38 @@
 import SwiftUI
 
 struct FloatingPrimaryButton: View {
-    let title: String
     let systemImage: String
+    let title: String
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
-            Label(title, systemImage: systemImage)
-                .padding(.horizontal, 16).padding(.vertical, 12)
-                .background(.tint)
-                .foregroundColor(.white)
-                .clipShape(Capsule())
-                .shadow(radius: 3)
+        VStack(spacing: 6) {
+            Button(action: action) {
+                Image(systemName: systemImage)
+                    .font(.title2)
+                    .foregroundStyle(.white)
+                    .padding(18)
+                    .background(Circle().fill(Color.accentColor))
+                    .shadow(radius: 3)
+            }
+            Text(title)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
         }
         .accessibilityIdentifier("floatingPrimaryButton")
     }
 }
 
 extension View {
-    func floatingButton(title: String, systemImage: String, action: @escaping () -> Void) -> some View {
-        self.overlay(
+    func floatingButtonCentered(title: String, systemImage: String, action: @escaping () -> Void) -> some View {
+        overlay(
             VStack {
                 Spacer()
-                HStack { Spacer()
-                    FloatingPrimaryButton(title: title, systemImage: systemImage, action: action)
-                        .padding(.trailing, 20).padding(.bottom, 20)
-                }
+                HStack { Spacer() }
+                FloatingPrimaryButton(systemImage: systemImage, title: title, action: action)
+                    .padding(.bottom, 24)
             }
-        )
+        , alignment: .bottom)
     }
 }
+

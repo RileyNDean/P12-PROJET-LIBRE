@@ -10,6 +10,7 @@ import CoreData
 
 struct DressingListView: View {
     @Environment(\.managedObjectContext) private var context
+
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Dressing.createdAt, ascending: true)],
         animation: .default
@@ -19,23 +20,36 @@ struct DressingListView: View {
     @State private var navigateToDressing: Dressing? = nil
 
     var body: some View {
-        List {
-            ForEach(dressings) { dressing in
-                NavigationLink(value: dressing) {
-                    HStack {
-                        Text(dressing.name ?? String(localized: "unnamed"))
-                        Spacer()
-                        Text("\(dressing.garments?.count ?? 0)").foregroundStyle(.secondary)
+        Group {
+            if dressings.isEmpty {
+                VStack(spacing: 12) {
+                    Text("Vous n'avez pas encore de dressing")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                List {
+                    ForEach(dressings) { dressing in
+                        NavigationLink(value: dressing) {
+                            HStack {
+                                Text(dressing.name ?? String(localized: "unnamed"))
+                                Spacer()
+                                Text("\(dressing.garments?.count ?? 0)")
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    .onDelete { idx in
+                        let items = idx.map { dressings[$0] }
+                        items.forEach { context.delete($0) }
+                        try? context.save()
                     }
                 }
             }
-            .onDelete { idx in
-                let items = idx.map { dressings[$0] }
-                items.forEach { context.delete($0) }
-                try? context.save()
-            }
         }
         .navigationTitle(String(localized: "dressings_title"))
+        .toolbar(.hidden, for: .tabBar)
         .navigationDestination(item: $navigateToDressing) { dressing in
             GarmentListView(dressing: dressing)
         }
@@ -47,9 +61,9 @@ struct DressingListView: View {
                 navigateToDressing = newDressing
             }
         }
-        .floatingButton(title: String(localized: "new_dressing"),
-                        systemImage: "plus") {
-            showNewDressing = true
-        }
+        .floatingButtonCentered(
+            title: String(localized: "new_dressing"),
+            systemImage: "plus"
+        ) { showNewDressing = true }
     }
 }

@@ -43,6 +43,7 @@ final class GarmentController {
         category: String?,
         notes: String?,
         status: GarmentStatus,
+        wearCount: Int32,
         photos: [UIImage]
     ) throws -> Garment {
         let validatedTitle = try Validation.nonEmpty(title, fieldName: "Title")
@@ -58,6 +59,7 @@ final class GarmentController {
         garment.notes = notes?.nilIfEmpty
         garment.statusRaw = status.rawValue
         garment.createdAt = Date()
+        garment.wearCount = wearCount
         garment.dressing = dressing
 
         _ = try attachPhotos(photos, to: garment, startingAt: 0)
@@ -85,6 +87,7 @@ final class GarmentController {
         size: String?,
         category: String?,
         notes: String?,
+        wearCount: Int32,
         status: GarmentStatus
     ) throws {
         garment.title = try Validation.nonEmpty(title, fieldName: "Title")
@@ -93,6 +96,7 @@ final class GarmentController {
         garment.size = size?.nilIfEmpty
         garment.category = category?.nilIfEmpty
         garment.notes = notes?.nilIfEmpty
+        garment.wearCount = wearCount
         garment.statusRaw = status.rawValue
 
         try validateHasAtLeastOnePhoto(garment)
@@ -108,9 +112,9 @@ final class GarmentController {
     /// - Throws: Any Core Data save error.
     func addPhotos(_ images: [UIImage], to garment: Garment) throws -> [GarmentPhoto] {
         let startIndex = garment.photoSet.count
-        let created = try attachPhotos(images, to: garment, startingAt: startIndex)
+        let createdPhotos = try attachPhotos(images, to: garment, startingAt: startIndex)
         try managedObjectContext.save()
-        return created
+        return createdPhotos
     }
 
     /// Removes the given photos from a garment and deletes their files.
@@ -119,17 +123,17 @@ final class GarmentController {
     ///   - garment: The parent garment.
     /// - Throws: Any Core Data save error.
     func removePhotos(_ photos: [GarmentPhoto], from garment: Garment) throws {
-        let pathsToDelete: [String] = photos.compactMap { photo in photo.path }
+        let imagePathsToDelete: [String] = photos.compactMap { photo in photo.path }
         photos.forEach { managedObjectContext.delete($0) }
         try managedObjectContext.save()
-        pathsToDelete.forEach { path in MediaStore.shared.delete(at: path) }
+        imagePathsToDelete.forEach { imagePath in MediaStore.shared.delete(at: imagePath) }
     }
 
     /// Reorders photos to match the provided sequence and persists the new order.
-    /// - Parameter ordered: Photo objects in their desired order.
+    /// - Parameter orderedPhotos: Photo objects in their desired order.
     /// - Throws: Any Core Data save error.
-    func reorderPhotos(_ ordered: [GarmentPhoto]) throws {
-        for (index, photo) in ordered.enumerated() {
+    func reorderPhotos(_ orderedPhotos: [GarmentPhoto]) throws {
+        for (index, photo) in orderedPhotos.enumerated() {
             photo.orderIndex = Int16(index)
         }
         try managedObjectContext.save()
@@ -150,7 +154,8 @@ final class GarmentController {
     /// - Parameter garment: The garment whose wear count to increment.
     /// - Throws: Any Core Data save error.
     func incrementWearCount(_ garment: Garment) throws {
-        garment.setValue((garment.value(forKey: "wearCount") as? Int32 ?? 0) + 1, forKey: "wearCount")
+        let currentWearCount = garment.value(forKey: "wearCount") as? Int32 ?? 0
+        garment.setValue(currentWearCount + 1, forKey: "wearCount")
         try managedObjectContext.save()
     }
 
@@ -158,10 +163,10 @@ final class GarmentController {
     /// - Parameter garment: The garment to delete.
     /// - Throws: Any Core Data save error.
     func delete(_ garment: Garment) throws {
-        let paths: [String] = garment.photoSet.compactMap { $0.path }
+        let imagePaths: [String] = garment.photoSet.compactMap { $0.path }
         managedObjectContext.delete(garment)
         try managedObjectContext.save()
-        paths.forEach { MediaStore.shared.delete(at: $0) }
+        imagePaths.forEach { MediaStore.shared.delete(at: $0) }
     }
     
     /// Validates that a garment has at least one photo.
@@ -178,22 +183,22 @@ final class GarmentController {
     /// - Parameters:
     ///   - images: The images to persist.
     ///   - garment: The target garment.
-    ///   - index: Starting order index.
+    ///   - startingIndex: Starting order index.
     /// - Returns: The created `GarmentPhoto` objects.
     /// - Throws: Any error thrown while saving images to disk.
-    private func attachPhotos(_ images: [UIImage], to garment: Garment, startingAt index: Int) throws -> [GarmentPhoto] {
-        var created: [GarmentPhoto] = []
+    private func attachPhotos(_ images: [UIImage], to garment: Garment, startingAt startingIndex: Int) throws -> [GarmentPhoto] {
+        var createdPhotos: [GarmentPhoto] = []
         for (offset, image) in images.enumerated() {
-            let path = try MediaStore.shared.saveJPEG(image)
+            let imagePath = try MediaStore.shared.saveJPEG(image)
             let photo = GarmentPhoto(context: managedObjectContext)
             photo.id = UUID()
-            photo.path = path
+            photo.path = imagePath
             photo.createdAt = Date()
-            photo.orderIndex = Int16(index + offset)
+            photo.orderIndex = Int16(startingIndex + offset)
             photo.garment = garment
-            created.append(photo)
+            createdPhotos.append(photo)
         }
-        return created
+        return createdPhotos
     }
 }
 

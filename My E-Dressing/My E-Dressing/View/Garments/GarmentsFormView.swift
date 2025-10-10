@@ -28,12 +28,13 @@ struct GarmentFormView: View {
     @State private var sizeText: String = ""
     @State private var categoryText: String = ""
     @State private var notesText: String = ""
+    @State private var wearCount: Int32 = 0
     @State private var statusValue: GarmentStatus = .kept
 
     // Photos working set (acts as the view-model layer for images)
     @State private var workingPhotoItems: [PhotoItem] = []
     @State private var isShowingPicker: Bool = false
-    @State private var pickerSelectedImages: [UIImage] = [] // temporary buffer filled by the picker
+    @State private var pickerSelectedImages: [UIImage] = []
 
     // UI state
     @State private var isSaving: Bool = false
@@ -102,6 +103,13 @@ struct GarmentFormView: View {
                             Text(status.label).tag(status)
                         }
                     }
+                    Stepper(
+                        String(localized: "wearcount_title") + " \(wearCount)",
+                        value: $wearCount,
+                        in: 0...999
+                    )
+                    .accessibilityIdentifier("wearCountStepper")
+
 
                     TextField(String(localized: "notes_placeholder"), text: $notesText, axis: .vertical)
                 }
@@ -116,13 +124,11 @@ struct GarmentFormView: View {
                 }
             }
             .sheet(isPresented: $isShowingPicker) {
-                // Image picker populates `pickerSelectedImages`; we map them to `PhotoItem` entries on change.
                 ImagePickerMulti(images: $pickerSelectedImages)
             }
             .onChange(of: pickerSelectedImages) { _, selectedImages in
                 let newItems = selectedImages.map { PhotoItem.new(image: $0) }
                 workingPhotoItems.append(contentsOf: newItems)
-                // Clear the buffer so the sheet can be reused without duplicating items.
                 pickerSelectedImages.removeAll()
             }
             .onAppear(perform: loadIfEditing)
@@ -167,6 +173,7 @@ struct GarmentFormView: View {
         sizeText = garment.size ?? ""
         categoryText = garment.category ?? ""
         notesText = garment.notes ?? ""
+        wearCount = garment.wearCount
         statusValue = GarmentStatus(rawValue: garment.statusRaw) ?? .kept
 
         workingPhotoItems = garment.orderedPhotos.compactMap { garmentPhoto in
@@ -189,7 +196,6 @@ struct GarmentFormView: View {
             let controller = GarmentController(managedObjectContext: managedObjectContext)
 
             if let garment = editingGarment {
-                // 1) Update metadata
                 try controller.update(
                     garment,
                     title: titleText,
@@ -198,10 +204,10 @@ struct GarmentFormView: View {
                     size: sizeText,
                     category: categoryText,
                     notes: notesText,
+                    wearCount: wearCount,
                     status: statusValue
                 )
 
-                // 2) Compute diff for photos
                 let keptExistingPhotoObjects: [GarmentPhoto] = workingPhotoItems.compactMap {
                     if case let .existing(photoObject, _) = $0 { return photoObject } else { return nil }
                 }
@@ -218,7 +224,6 @@ struct GarmentFormView: View {
                     _ = try controller.addPhotos(imagesToAdd, to: garment)
                 }
 
-                // 3) Reorder photos following the UI order
                 let orderedForController: [GarmentPhoto] = workingPhotoItems.compactMap {
                     if case let .existing(photoObject, _) = $0 { return photoObject } else { return nil }
                 }
@@ -226,11 +231,9 @@ struct GarmentFormView: View {
                     try controller.reorderPhotos(orderedForController)
                 }
 
-                // 4) Business rule: must have ≥1 photo
                 try controller.validateHasAtLeastOnePhoto(garment)
 
             } else {
-                // Create mode
                 let dressing = try selectedDressing ?? fetchOrCreateDefaultDressing()
                 let photosForCreation: [UIImage] = workingPhotoItems.compactMap {
                     if case let .new(newImage) = $0 { return newImage } else { return nil }
@@ -244,6 +247,7 @@ struct GarmentFormView: View {
                     category: categoryText,
                     notes: notesText,
                     status: statusValue,
+                    wearCount: wearCount,
                     photos: photosForCreation
                 )
             }

@@ -18,6 +18,8 @@ status_to_give = "To give";
 status_to_sell = "To sell";
 status_to_recycle = "To recycle";
 settings_language_title = "Language";
+confirm_delete_item = "Delete this garment?";
+confirm_delete_dressing = "Delete this dressing and its garments?";
 
 // Additional keys used by GarmentsFormView
 photos_title = "Photos";
@@ -34,3 +36,5 @@ error_title = "Error";
 ok = "OK";
 unexpected_error = "Unexpected error";
 default_dressing_name = "My Dressing";
+wearcount_title = "Times worn:";
+

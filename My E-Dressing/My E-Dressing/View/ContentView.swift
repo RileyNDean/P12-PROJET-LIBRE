@@ -5,8 +5,6 @@
 //  Created by Dhayan Bourguignon on 06/10/2025.
 //
 
-// Root view displaying dressings from Core Data and language settings.
-
 import SwiftUI
 import CoreData
 
@@ -21,13 +19,13 @@ struct ContentView: View {
         animation: .default)
     private var dressings: FetchedResults<Dressing>
     
-    @EnvironmentObject private var lang: LanguageController
+    @EnvironmentObject private var languageController: LanguageController
 
     var body: some View {
         NavigationStack {
             List {
                 Section("Langue / Language") {
-                    Picker("Language", selection: Binding(get: { lang.selected }, set: { lang.setLanguage($0) })) {
+                    Picker("Language", selection: Binding(get: { languageController.selected }, set: { newLanguage in languageController.setLanguage(newLanguage) })) {
                         ForEach(AppLanguage.allCases) { option in
                             Text(option.label).tag(option)
                         }
@@ -36,23 +34,23 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
 #endif
 
-                    NavigationLink("Ouvrir les réglages de langue", destination: LanguageSettingsView())
+                    NavigationLink("Open language settings", destination: LanguageSettingsView())
 
                     HStack {
-                        Text("Actuelle :")
+                        Text("Current:")
                         Spacer()
-                        Text(lang.selected.label).foregroundStyle(.secondary)
+                        Text(languageController.selected.label).foregroundStyle(.secondary)
                     }
                     HStack {
-                        Text("Locale :")
+                        Text("Locale:")
                         Spacer()
-                        Text(lang.currentLocale.identifier).foregroundStyle(.secondary)
+                        Text(languageController.currentLocale.identifier).foregroundStyle(.secondary)
                     }
                 }
 
                 Section("Dressings") {
                     if dressings.isEmpty {
-                        Text("Aucun dressing").foregroundStyle(.secondary)
+                        Text("No dressings").foregroundStyle(.secondary)
                     }
                     ForEach(dressings) { dressing in
                         HStack {
@@ -81,7 +79,7 @@ struct ContentView: View {
         withAnimation {
             let newDressing = Dressing(context: viewContext)
             newDressing.id = UUID()
-            newDressing.name = "Nouveau dressing"
+            newDressing.name = "New dressing"
             newDressing.createdAt = Date()
 
             do {
@@ -109,10 +107,10 @@ struct ContentView: View {
     
     /// Synchronizes `LanguageController` with the stored UserDefaults value.
     private func syncLanguageFromDefaults() {
-        if let raw = UserDefaults.standard.string(forKey: "appLanguage"),
-           let stored = AppLanguage(rawValue: raw),
-           stored != lang.selected {
-            lang.setLanguage(stored)
+        if let rawLanguageValue = UserDefaults.standard.string(forKey: "appLanguage"),
+           let storedLanguage = AppLanguage(rawValue: rawLanguageValue),
+           storedLanguage != languageController.selected {
+            languageController.setLanguage(storedLanguage)
         }
     }
 }
@@ -126,9 +124,9 @@ private let dateFormatter: DateFormatter = {
 }()
 
 #Preview {
-    let lang = LanguageController()
+    let languageController = LanguageController()
     return ContentView()
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-        .environment(\.locale, lang.currentLocale)
-        .environmentObject(lang)
+        .environment(\.locale, languageController.currentLocale)
+        .environmentObject(languageController)
 }

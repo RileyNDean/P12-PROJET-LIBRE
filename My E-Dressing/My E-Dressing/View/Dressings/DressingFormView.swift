@@ -10,7 +10,7 @@ import CoreData
 
 struct DressingFormView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.managedObjectContext) private var context
+    @Environment(\.managedObjectContext) private var managedObjectContext
 
     var editingDressing: Dressing? = nil
     var onSaved: ((Dressing) -> Void)? = nil
@@ -27,24 +27,25 @@ struct DressingFormView: View {
                         Button(String(localized: "cancel")) { dismiss() }
                     }
                 }
-                .floatingButton(title: String(localized: "save"), systemImage: "checkmark") { save() }
+                .floatingButtonCentered(title: String(localized: "save"),
+                                        systemImage: "checkmark") { save() }
+
         }
-        .onAppear { if let d = editingDressing { nameText = d.name ?? "" } }
+        .onAppear { if let dressing = editingDressing { nameText = dressing.name ?? "" } }
     }
 
     private func save() {
         do {
-            let controller = DressingController(managedObjectContext: context)
-            let result: Dressing
-            if let d = editingDressing {
-                try controller.rename(d, to: nameText)
-                result = d
+            let dressingController = DressingController(managedObjectContext: managedObjectContext)
+            let savedDressing: Dressing
+            if let dressing = editingDressing {
+                try dressingController.rename(dressing, to: nameText)
+                savedDressing = dressing
             } else {
-                result = try controller.create(name: nameText)
+                savedDressing = try dressingController.create(name: nameText)
             }
             dismiss()
-            onSaved?(result)
+            onSaved?(savedDressing)
         } catch {}
     }
 }
-
