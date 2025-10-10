@@ -18,6 +18,7 @@ struct GarmentListView: View {
     @State private var garmentPendingDeletion: Garment? = nil
     @State private var isShowingAlert = false
     @State private var alertMessage = ""
+    @State private var isRenamingDressing = false
 
     private var fetchRequest: FetchRequest<Garment>
     private var fetchedGarments: FetchedResults<Garment> { fetchRequest.wrappedValue }
@@ -31,6 +32,7 @@ struct GarmentListView: View {
     }
 
     var body: some View {
+        
         List {
             if fetchedGarments.isEmpty {
                 Text(String(localized: "no_garments_yet"))
@@ -46,9 +48,26 @@ struct GarmentListView: View {
                             } label: {
                                 Label(String(localized: "delete"), systemImage: "trash")
                             }
+                            Button {
+                                editingGarment = garment
+                            } label: {
+                                Label(String(localized: "edit"), systemImage: "square.and.pencil")
+                            }
                         }
                 }
             }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    isRenamingDressing = true
+                } label: {
+                    Label(String(localized: "edit"), systemImage: "pencil")
+                }
+            }
+        }
+        .sheet(isPresented: $isRenamingDressing) {
+            DressingFormView(editingDressing: dressing)
         }
         .listStyle(.plain)
         .navigationTitle(dressing.name ?? String(localized: "dressing"))
@@ -62,7 +81,6 @@ struct GarmentListView: View {
         .sheet(item: $editingGarment) { garment in
             GarmentFormView(editingGarment: garment, selectedDressing: dressing)
         }
-        // Confirmation de suppression
         .alert(
             String(localized: "delete"),
             isPresented: Binding(get: { garmentPendingDeletion != nil }, set: { _ in })
@@ -75,10 +93,10 @@ struct GarmentListView: View {
         } message: {
             Text(String(localized: "confirm_delete_item"))
         }
-        // Erreurs génériques
         .alert(String(localized: "error_title"), isPresented: $isShowingAlert) {
             Button(String(localized: "ok"), role: .cancel) {}
         } message: { Text(alertMessage) }
+        
     }
 
     // Actions

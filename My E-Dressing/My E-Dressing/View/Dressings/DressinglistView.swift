@@ -9,6 +9,10 @@ import SwiftUI
 import CoreData
 
 struct DressingListView: View {
+    
+    @State private var editingDressing: Dressing? = nil
+    @State private var deleteDressing: Dressing? = nil
+    
     @Environment(\.managedObjectContext) private var context
 
     @FetchRequest(
@@ -31,12 +35,26 @@ struct DressingListView: View {
             } else {
                 List {
                     ForEach(dressings) { dressing in
-                        NavigationLink(value: dressing) {
+                        NavigationLink {
+                            GarmentListView(dressing: dressing)
+                        } label: {
                             HStack {
                                 Text(dressing.name ?? String(localized: "unnamed"))
                                 Spacer()
                                 Text("\(dressing.garments?.count ?? 0)")
                                     .foregroundStyle(.secondary)
+                            }
+                        }
+                        .swipeActions(allowsFullSwipe: false) {
+                            Button(role: .destructive) {
+                                deleteDressing = dressing
+                            } label: {
+                                Label(String(localized: "delete"), systemImage: "trash")
+                            }
+                            Button {
+                                editingDressing = dressing
+                            } label: {
+                                Label(String(localized: "edit"), systemImage: "pencil")
                             }
                         }
                     }
@@ -53,17 +71,38 @@ struct DressingListView: View {
         .navigationDestination(item: $navigateToDressing) { dressing in
             GarmentListView(dressing: dressing)
         }
-        .navigationDestination(for: Dressing.self) { dressing in
-            GarmentListView(dressing: dressing)
-        }
         .sheet(isPresented: $showNewDressing) {
             DressingFormView { newDressing in
                 navigateToDressing = newDressing
             }
         }
+        .sheet(item: $editingDressing) { dressing in
+            DressingFormView(editingDressing: dressing, onSaved: {_ in} )
+        }
+        .alert(
+            String(localized: "confirm_delete_dressing_title"),
+            isPresented: .constant(deleteDressing != nil),
+            presenting: deleteDressing,
+        ) { dressing in
+            Button(String(localized: "delete"), role: .destructive) {
+                performDelete(dressing)
+                deleteDressing = nil
+            }
+            Button(String(localized: "cancel"), role: .cancel) {
+                deleteDressing = nil
+            }
+        } message: { dressing in
+            Text("\(dressing.name ?? String(localized: "unnamed")) — with \(dressing.garments?.count ?? 0) garment(s) will be removed.")
+        }
         .floatingButtonCentered(
             title: String(localized: "new_dressing"),
             systemImage: "plus"
         ) { showNewDressing = true }
+    }
+    
+    private func performDelete(_ dressing: Dressing) {
+        context.delete(dressing)
+        do { try context.save() } catch {
+        }
     }
 }

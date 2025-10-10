@@ -4,7 +4,6 @@
 //
 //  Created by Dhayan Bourguignon on 10/10/2025.
 //
-
 import SwiftUI
 import UIKit
 import CoreData
@@ -14,21 +13,28 @@ struct GarmentCardView: View {
     let onEdit: () -> Void
 
     @State private var isExpanded = false
+    @State private var showViewer = false
+    @State private var viewerIndex = 0
 
     private var images: [UIImage] {
-        garment.orderedPhotos.compactMap { $0.path }.compactMap { MediaStore.shared.loadImage(at: $0) }
+        garment.orderedPhotos
+            .compactMap { $0.path }
+            .compactMap { MediaStore.shared.loadImage(at: $0) }
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
+
             if isExpanded {
-                if let first = images.first {
-                    Image(uiImage: first)
-                        .resizable().scaledToFill()
-                        .frame(height: 220).clipped().cornerRadius(12)
+                PhotoGrid(images: images) { idx in
+                    viewerIndex = idx
+                    showViewer = true
                 }
             } else {
-                collageView(images: images)
+                HorizontalPhotoStrip(images: images) { idx in
+                    viewerIndex = idx
+                    showViewer = true
+                }
             }
 
             HStack {
@@ -45,17 +51,6 @@ struct GarmentCardView: View {
                 .font(.subheadline).foregroundStyle(.secondary)
 
             if isExpanded {
-                // Toutes les photos en grille
-                if images.count > 1 {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3), spacing: 8) {
-                        ForEach(images.indices, id: \.self) { idx in
-                            Image(uiImage: images[idx])
-                                .resizable().scaledToFill()
-                                .frame(height: 90).clipped().cornerRadius(8)
-                        }
-                    }
-                }
-                // Détails
                 VStack(alignment: .leading, spacing: 6) {
                     infoRow("Marque", garment.brand)
                     infoRow("Couleur", garment.color)
@@ -70,18 +65,15 @@ struct GarmentCardView: View {
         .padding(14)
         .background(Color(uiColor: .secondarySystemBackground))
         .cornerRadius(16)
-        .overlay(alignment: .topTrailing) {
-            if isExpanded {
-                Button(action: onEdit) {
-                    Image(systemName: "pencil").padding(8)
-                }
-                .background(.ultraThinMaterial, in: Circle()).padding(8)
-            }
-        }
+        .contentShape(Rectangle())
         .onTapGesture { withAnimation(.easeInOut) { isExpanded.toggle() } }
+        .sheet(isPresented: $showViewer) {
+            PhotoFullScreenViewer(images: images, startIndex: $viewerIndex)
+        }
     }
 
-    // MARK: helpers
+    // MARK: - Helpers
+
     private func infoRow(_ label: String, _ value: String?) -> some View {
         HStack {
             Text(label).font(.caption).foregroundStyle(.secondary)
@@ -89,31 +81,89 @@ struct GarmentCardView: View {
             Text(value?.isEmpty == false ? value! : "—").font(.caption)
         }
     }
+}
 
-    /// Affiche 1, 2, 3 ou 4 vignettes avec "+X" sur la dernière si >4.
-    @ViewBuilder
-    private func collageView(images: [UIImage]) -> some View {
-        let count = images.count
-        if count <= 1 {
-            Image(uiImage: images.first ?? UIImage())
-                .resizable().scaledToFill()
-                .frame(height: 140).clipped().cornerRadius(12)
-        } else {
-            let shown = Array(images.prefix(4))
-            let extra = max(0, count - 4)
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
-                ForEach(shown.indices, id: \.self) { idx in
-                    ZStack {
-                        Image(uiImage: shown[idx]).resizable().scaledToFill()
-                        if extra > 0 && idx == 3 {
-                            Rectangle().fill(.ultraThinMaterial)
-                            Text("+\(extra) photos").font(.headline).bold()
-                        }
-                    }
-                    .frame(height: 80).clipped().cornerRadius(10)
+// MARK: - Composants locaux
+
+private struct PhotoThumb: View {
+    let image: UIImage
+    var body: some View {
+        Image(uiImage: image)
+            .resizable()
+            .scaledToFill()
+            .frame(width: 96, height: 144)
+            .clipped()
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+}
+
+private struct HorizontalPhotoStrip: View {
+    let images: [UIImage]
+    let onTap: (Int) -> Void
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 12) {
+                ForEach(images.indices, id: \.self) { i in
+                    PhotoThumb(image: images[i]).onTapGesture { onTap(i) }
                 }
             }
-            .frame(height: 168)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+        }
+        .frame(height: 160)
+    }
+}
+
+private struct PhotoGrid: View {
+    let images: [UIImage]
+    let onTap: (Int) -> Void
+
+    private let cols = [GridItem(.adaptive(minimum: 96), spacing: 12)]
+
+    var body: some View {
+        LazyVGrid(columns: cols, spacing: 12) {
+            ForEach(images.indices, id: \.self) { i in
+                PhotoThumb(image: images[i]).onTapGesture { onTap(i) }
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.bottom, 8)
+    }
+}
+
+private struct PhotoFullScreenViewer: View {
+    let images: [UIImage]
+    @Binding var startIndex: Int
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        ZStack {
+            TabView(selection: $startIndex) {
+                ForEach(images.indices, id: \.self) { i in
+                    Image(uiImage: images[i])
+                        .resizable()
+                        .scaledToFit()
+                        .tag(i)
+                        .background(Color.black)
+                        .ignoresSafeArea()
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .background(Color.black.ignoresSafeArea())
+
+            VStack {
+                HStack {
+                    Spacer()
+                    Button { dismiss() } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 28, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.9))
+                    }
+                }
+                .padding()
+                Spacer()
+            }
         }
     }
 }
