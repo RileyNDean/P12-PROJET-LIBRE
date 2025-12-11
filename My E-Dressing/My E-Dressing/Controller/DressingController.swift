@@ -27,11 +27,12 @@ final class DressingController {
     /// - Returns: The newly created and saved `Dressing` instance.
     /// - Throws: `ValidationError` if the name is empty, or any Core Data save error.
     @discardableResult
-    func create(name: String) throws -> Dressing {
+    func create(name: String, icon: String) throws -> Dressing {
         let validatedName = try Validation.nonEmpty(name, fieldName: "Name")
         let dressingObject = Dressing(context: managedObjectContext)
         dressingObject.id = UUID()
         dressingObject.name = validatedName
+        dressingObject.icon = icon
         dressingObject.createdAt = Date()
         try managedObjectContext.save()
         return dressingObject
@@ -75,8 +76,9 @@ final class DressingController {
     ///   - dressing: The `Dressing` to rename.
     ///   - newName: The new non-empty name.
     /// - Throws: `ValidationError` if the name is empty, or any Core Data save error.
-    func rename(_ dressing: Dressing, to newName: String) throws {
+    func rename(_ dressing: Dressing, to newName: String, to newIcon: String) throws {
         dressing.name = try Validation.nonEmpty(newName, fieldName: "Name")
+        dressing.icon = newIcon
         try managedObjectContext.save()
     }
 

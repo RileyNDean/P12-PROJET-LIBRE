@@ -9,100 +9,100 @@ import SwiftUI
 import CoreData
 
 struct DressingListView: View {
-    
-    @State private var editingDressing: Dressing? = nil
-    @State private var deleteDressing: Dressing? = nil
-    
-    @Environment(\.managedObjectContext) private var context
+    @Environment(\.managedObjectContext) private var viewContext
+    @State private var isCreating = false
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Dressing.createdAt, ascending: true)],
+        sortDescriptors: [],
         animation: .default
-    ) private var dressings: FetchedResults<Dressing>
+    )
+    private var dressings: FetchedResults<Dressing>
 
     @State private var showNewDressing = false
-    @State private var navigateToDressing: Dressing? = nil
+    @State private var editingDressing: Dressing? = nil
 
     var body: some View {
-        Group {
-            if dressings.isEmpty {
-                VStack(spacing: 12) {
-                    Text("Vous n'avez pas encore de dressing")
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                List {
-                    ForEach(dressings) { dressing in
-                        NavigationLink {
-                            GarmentListView(dressing: dressing)
-                        } label: {
-                            HStack {
-                                Text(dressing.name ?? String(localized: "unnamed"))
-                                Spacer()
-                                Text("\(dressing.garments?.count ?? 0)")
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        .swipeActions(allowsFullSwipe: false) {
-                            Button(role: .destructive) {
-                                deleteDressing = dressing
-                            } label: {
-                                Label(String(localized: "delete"), systemImage: "trash")
-                            }
-                            Button {
-                                editingDressing = dressing
-                            } label: {
-                                Label(String(localized: "edit"), systemImage: "pencil")
-                            }
-                        }
+        ZStack(alignment: .bottomTrailing) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Mes dressings")
+                            .font(.system(size: 32, weight: .bold))
+                            .foregroundColor(.black)
+
+                        Text("Gère tes dressings par saison, style ou pièce.")
+                            .font(AppTheme.bodyFont)
+                            .foregroundColor(AppTheme.textSecondary)
                     }
-                    .onDelete { idx in
-                        let items = idx.map { dressings[$0] }
-                        items.forEach { context.delete($0) }
-                        try? context.save()
+                    .padding(.top, AppTheme.paddingLarge)
+                    .padding(.horizontal, AppTheme.paddingMedium)
+
+                    if dressings.isEmpty {
+                        EmptyDressingsView {
+                            showNewDressing = true
+                        }
+                        .padding(.horizontal, AppTheme.paddingMedium)
+                        .padding(.top, 8)
+                    } else {
+                        VStack(spacing: 12) {
+                            ForEach(dressings) { dressing in
+                                NavigationLink {
+                                   // DressingDetailView(dressing: dressing)   // ton écran détail existant
+                                } label: {
+                                    DressingCardView(
+                                        name: dressing.name ?? "Sans nom",
+                                        itemCount: (dressing.garments as? Set<Garment>)?.count ?? 0,
+                                        icon: dressing.icon
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        delete(dressing)
+                                    } label: {
+                                        Label("Supprimer", systemImage: "trash")
+                                    }
+
+                                    Button {
+                                        editingDressing = dressing
+                                        showNewDressing = true
+                                    } label: {
+                                        Label("Modifier", systemImage: "pencil")
+                                    }
+                                    .tint(.gray)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, AppTheme.paddingMedium)
+                        .padding(.top, 4)
+                        .padding(.bottom, 80)
                     }
                 }
             }
-        }
-        .navigationTitle(String(localized: "dressings_title"))
-        .toolbar(.hidden, for: .tabBar)
-        .navigationDestination(item: $navigateToDressing) { dressing in
-            GarmentListView(dressing: dressing)
+            .background(AppTheme.background.ignoresSafeArea())
+
+            FloatingActionButton(
+                icon: "plus",
+                label: "Nouveau dressing"
+            ) {
+                editingDressing = nil
+                showNewDressing = true
+            }
+            .padding(.trailing, AppTheme.paddingMedium)
+            .padding(.bottom, AppTheme.paddingLarge)
         }
         .sheet(isPresented: $showNewDressing) {
-            DressingFormView { newDressing in
-                navigateToDressing = newDressing
+            DressingFormView(editingDressing: editingDressing) { newDressing in
             }
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
+            .presentationCornerRadius(32)                
         }
-        .sheet(item: $editingDressing) { dressing in
-            DressingFormView(editingDressing: dressing, onSaved: {_ in} )
-        }
-        .alert(
-            String(localized: "confirm_delete_dressing_title"),
-            isPresented: .constant(deleteDressing != nil),
-            presenting: deleteDressing,
-        ) { dressing in
-            Button(String(localized: "delete"), role: .destructive) {
-                performDelete(dressing)
-                deleteDressing = nil
-            }
-            Button(String(localized: "cancel"), role: .cancel) {
-                deleteDressing = nil
-            }
-        } message: { dressing in
-            Text("\(dressing.name ?? String(localized: "unnamed")) — with \(dressing.garments?.count ?? 0) garment(s) will be removed.")
-        }
-        .floatingButtonCentered(
-            title: String(localized: "new_dressing"),
-            systemImage: "plus"
-        ) { showNewDressing = true }
+
     }
-    
-    private func performDelete(_ dressing: Dressing) {
-        context.delete(dressing)
-        do { try context.save() } catch {
-        }
+
+    private func delete(_ dressing: Dressing) {
+        viewContext.delete(dressing)
+        try? viewContext.save()
     }
 }

@@ -269,7 +269,7 @@ struct GarmentFormView: View {
         let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
         request.fetchLimit = 1
         if let first = try managedObjectContext.fetch(request).first { return first }
-        return try DressingController(managedObjectContext: managedObjectContext).create(name: String(localized: "default_dressing_name"))
+        return try DressingController(managedObjectContext: managedObjectContext).create(name: String(localized: "default_dressing_name"), icon: "default_dressing_icon")
     }
 }
 
