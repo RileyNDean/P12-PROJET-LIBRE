@@ -12,10 +12,10 @@ enum GarmentStatus: Int16, CaseIterable, Identifiable {
     var id: Int16 { rawValue }
     var label: String {
         switch self {
-        case .kept: "Kept"
-        case .toGive: "To give"
-        case .toSell: "To sell"
-        case .toRecycle: "To recycle"
+        case .kept: String(localized: "status_kept")
+        case .toGive: String(localized: "status_to_give")
+        case .toSell: String(localized: "status_to_sell")
+        case .toRecycle: String(localized: "status_to_recycle")
         }
     }
 }

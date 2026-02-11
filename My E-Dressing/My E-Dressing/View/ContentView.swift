@@ -21,8 +21,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Language") {
-                    Picker("Language", selection: Binding(get: { languageController.selected }, set: { newLanguage in languageController.setLanguage(newLanguage) })) {
+                Section(String(localized: "settings_language_title")) {
+                    Picker(String(localized: "settings_language_title"), selection: Binding(get: { languageController.selected }, set: { newLanguage in languageController.setLanguage(newLanguage) })) {
                         ForEach(AppLanguage.allCases) { option in
                             Text(option.label).tag(option)
                         }
@@ -31,27 +31,27 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
 #endif
 
-                    NavigationLink("Open language settings", destination: LanguageSettingsView())
+                    NavigationLink(String(localized: "open_language_settings"), destination: LanguageSettingsView())
 
                     HStack {
-                        Text("Current:")
+                        Text(String(localized: "current_label"))
                         Spacer()
                         Text(languageController.selected.label).foregroundStyle(.secondary)
                     }
                     HStack {
-                        Text("Locale:")
+                        Text(String(localized: "locale_label"))
                         Spacer()
                         Text(languageController.currentLocale.identifier).foregroundStyle(.secondary)
                     }
                 }
 
-                Section("Dressings") {
+                Section(String(localized: "dressings_title")) {
                     if dressings.isEmpty {
-                        Text("No dressings").foregroundStyle(.secondary)
+                        Text(String(localized: "no_dressings")).foregroundStyle(.secondary)
                     }
                     ForEach(dressings) { dressing in
                         HStack {
-                            Text(dressing.name ?? "Unnamed dressing")
+                            Text(dressing.name ?? String(localized: "unnamed_dressing"))
                             Spacer()
                             Text((dressing.createdAt ?? Date()), formatter: dateFormatter)
                                 .foregroundStyle(.secondary)
@@ -60,12 +60,12 @@ struct ContentView: View {
                     .onDelete(perform: deleteDressings)
                 }
             }
-            .navigationTitle("My E‑Dressing")
+            .navigationTitle(String(localized: "app_title"))
             .toolbar {
 #if os(iOS)
                 ToolbarItem(placement: .navigationBarTrailing) { EditButton() }
 #endif
-                ToolbarItem { Button(action: addDressing) { Label("Add Dressing", systemImage: "plus") } }
+                ToolbarItem { Button(action: addDressing) { Label(String(localized: "new_dressing"), systemImage: "plus") } }
             }
         }
         .onAppear { syncLanguageFromDefaults() }
@@ -75,7 +75,7 @@ struct ContentView: View {
         withAnimation {
             let newDressing = Dressing(context: viewContext)
             newDressing.id = UUID()
-            newDressing.name = "New dressing"
+            newDressing.name = String(localized: "new_dressing_default")
             newDressing.createdAt = Date()
 
             do {

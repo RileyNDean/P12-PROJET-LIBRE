@@ -131,7 +131,7 @@ struct GarmentFormView: View {
                 if isSaving {
                     ZStack {
                         Color.black.opacity(0.2).ignoresSafeArea()
-                        ProgressView("Saving...")
+                        ProgressView(String(localized: "saving"))
                             .padding()
                             .background(.thinMaterial)
                             .cornerRadius(12)

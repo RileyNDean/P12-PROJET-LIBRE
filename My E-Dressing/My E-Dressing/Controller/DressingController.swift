@@ -18,7 +18,7 @@ final class DressingController {
 
     @discardableResult
     func create(name: String) throws -> Dressing {
-        let validatedName = try Validation.nonEmpty(name, fieldName: "Name")
+        let validatedName = try Validation.nonEmpty(name, fieldName: String(localized: "name"))
         let dressingObject = Dressing(context: managedObjectContext)
         dressingObject.id = UUID()
         dressingObject.name = validatedName
@@ -51,7 +51,7 @@ final class DressingController {
     // MARK: - Update
 
     func rename(_ dressing: Dressing, to newName: String) throws {
-        dressing.name = try Validation.nonEmpty(newName, fieldName: "Name")
+        dressing.name = try Validation.nonEmpty(newName, fieldName: String(localized: "name"))
         try managedObjectContext.save()
     }
 
