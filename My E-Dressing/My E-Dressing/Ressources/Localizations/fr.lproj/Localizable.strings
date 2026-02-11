@@ -80,8 +80,10 @@ sort_by_date = "Trier par date";
 sort_by_brand = "Trier par marque";
 
 // MARK: - Tabs
-tab_dressings = "Dressings";
-tab_add = "Ajouter";
+tab_home = "Accueil";
+tab_search = "Recherche";
+tab_calendar = "Calendrier";
+tab_profile = "Profil";
 
 // MARK: - App
 app_title = "My E‑Dressing";

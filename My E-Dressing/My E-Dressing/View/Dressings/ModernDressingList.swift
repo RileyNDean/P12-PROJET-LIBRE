@@ -18,9 +18,9 @@ struct ModernDressingList: View {
     
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .bottomTrailing) {
+            ZStack {
                 Color.themeBackground.ignoresSafeArea()
-                
+
                 List {
                     ForEach(dressings) { dressing in
                         ZStack {
@@ -28,7 +28,7 @@ struct ModernDressingList: View {
                                 EmptyView()
                             }
                             .opacity(0)
-                            
+
                             DressingRowCard(dressing: dressing)
                         }
                         .listRowSeparator(.hidden)
@@ -52,21 +52,16 @@ struct ModernDressingList: View {
                     }
                 }
                 .listStyle(.plain)
-                
-                Button { showNewDressing = true } label: {
-                    HStack {
-                        Image(systemName: "cabinet")
-                        Text(String(localized: "new"))
-                    }
-                    .padding()
-                    .background(Color.themeSecondary)
-                    .foregroundColor(.white)
-                    .cornerRadius(30)
-                    .shadow(radius: 5)
-                }
-                .padding()
             }
             .navigationTitle(String(localized: "my_dressings"))
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showNewDressing = true } label: {
+                        Image(systemName: "plus")
+                            .foregroundStyle(Color.themePrimary)
+                    }
+                }
+            }
             .overlay {
                 if showNewDressing || dressingToEdit != nil {
                     Color.black.opacity(0.3)
