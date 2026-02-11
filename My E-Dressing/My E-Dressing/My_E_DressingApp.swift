@@ -12,13 +12,13 @@ import CoreData
 /// Injects the Core Data `viewContext` and the `LanguageController` into the SwiftUI environment.
 @main
 struct My_E_DressingApp: App {
-    let pc = PersistenceController.shared
+    let persistenceController = PersistenceController.shared
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                DressingListView()
+                ModernDressingList()
             }
-            .environment(\.managedObjectContext, pc.container.viewContext)
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
