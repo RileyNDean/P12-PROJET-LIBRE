@@ -83,6 +83,7 @@ sort_by_brand = "Trier par marque";
 tab_home = "Accueil";
 tab_search = "Recherche";
 tab_calendar = "Calendrier";
+tab_day = "Jour";
 tab_profile = "Profil";
 
 // MARK: - App
