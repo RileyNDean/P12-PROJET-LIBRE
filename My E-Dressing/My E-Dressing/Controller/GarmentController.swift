@@ -31,8 +31,8 @@ final class GarmentController {
         wearCount: Int32,
         photos: [UIImage]
     ) throws -> Garment {
-        let validatedTitle = try Validation.nonEmpty(title, fieldName: "Title")
-        guard !photos.isEmpty else { throw ValidationError(message: "At least one photo is required") }
+        let validatedTitle = try Validation.nonEmpty(title, fieldName: String(localized: "title_required_placeholder"))
+        guard !photos.isEmpty else { throw ValidationError(message: String(localized: "photo_required")) }
 
         let garment = Garment(context: managedObjectContext)
         garment.id = UUID()
@@ -65,7 +65,7 @@ final class GarmentController {
         wearCount: Int32,
         status: GarmentStatus
     ) throws {
-        garment.title = try Validation.nonEmpty(title, fieldName: "Title")
+        garment.title = try Validation.nonEmpty(title, fieldName: String(localized: "title_required_placeholder"))
         garment.brand = brand?.nilIfEmpty
         garment.color = color?.nilIfEmpty
         garment.size = size?.nilIfEmpty
@@ -125,7 +125,7 @@ final class GarmentController {
 
     func validateHasAtLeastOnePhoto(_ garment: Garment) throws {
         if garment.photoSet.isEmpty {
-            throw ValidationError(message: "At least one photo is required")
+            throw ValidationError(message: String(localized: "photo_required"))
         }
     }
 

@@ -27,7 +27,7 @@ struct DressingListView: View {
         Group {
             if dressings.isEmpty {
                 VStack(spacing: 12) {
-                    Text("You don't have any dressings yet")
+                    Text(String(localized: "no_dressings_yet"))
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                 }
@@ -39,7 +39,7 @@ struct DressingListView: View {
                             GarmentListView(dressing: dressing)
                         } label: {
                             HStack {
-                                Text(dressing.name ?? String(localized: "unnamed"))
+                                Text(dressing.name ?? String(localized: "unnamed_dressing"))
                                 Spacer()
                                 Text("\(dressing.garments?.count ?? 0)")
                                     .foregroundStyle(.secondary)
@@ -92,7 +92,7 @@ struct DressingListView: View {
                 deleteDressing = nil
             }
         } message: { dressing in
-            Text("\(dressing.name ?? String(localized: "unnamed")) — with \(dressing.garments?.count ?? 0) garment(s) will be removed.")
+            Text("\(dressing.name ?? String(localized: "unnamed_dressing")) — \(String(format: String(localized: "garments_count"), dressing.garments?.count ?? 0))")
         }
         .floatingButtonCentered(
             title: String(localized: "new_dressing"),

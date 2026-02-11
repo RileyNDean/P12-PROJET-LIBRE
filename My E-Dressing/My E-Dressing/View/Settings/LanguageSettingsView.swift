@@ -22,7 +22,7 @@ struct LanguageSettingsView: View {
                 .onTapGesture { appLang = language.rawValue }
             }
         }
-        .navigationTitle(String(localized: "name")) 
+        .navigationTitle(String(localized: "settings_language_title"))
     }
 }
 

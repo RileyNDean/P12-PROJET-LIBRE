@@ -40,7 +40,7 @@ struct ModernGarmentRow: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(garment.title ?? "Untitled")
+                    Text(garment.title ?? String(localized: "untitled"))
                         .font(.headline)
                         .foregroundStyle(Color.themeSecondary)
                     
@@ -87,16 +87,16 @@ struct ModernGarmentRow: View {
                     }
                     
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                        DetailItem(icon: "ruler", title: "Size", value: garment.size)
-                        DetailItem(icon: "paintpalette", title: "Color", value: garment.color)
-                        DetailItem(icon: "tag", title: "Category", value: garment.category)
-                        DetailItem(icon: "arrow.counterclockwise", title: "Worn", value: "\(garment.wearCount) times")
+                        DetailItem(icon: "ruler", title: String(localized: "size_placeholder"), value: garment.size)
+                        DetailItem(icon: "paintpalette", title: String(localized: "color_placeholder"), value: garment.color)
+                        DetailItem(icon: "tag", title: String(localized: "category_placeholder"), value: garment.category)
+                        DetailItem(icon: "arrow.counterclockwise", title: String(localized: "wearcount_title"), value: String(format: String(localized: "worn_count"), garment.wearCount))
                     }
                     
                     Button(action: onEdit) {
                         HStack {
                             Image(systemName: "pencil")
-                            Text("Edit / Add photos")
+                            Text(String(localized: "edit_add_photos"))
                         }
                         .font(.subheadline.bold())
                         .foregroundColor(Color.themePrimary)

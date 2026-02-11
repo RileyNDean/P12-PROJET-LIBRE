@@ -39,13 +39,13 @@ struct ModernDressingList: View {
                                 viewContext.delete(dressing)
                                 try? viewContext.save()
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Label(String(localized: "delete"), systemImage: "trash")
                             }
-                            
+
                             Button {
                                 dressingToEdit = dressing
                             } label: {
-                                Label("Edit", systemImage: "pencil")
+                                Label(String(localized: "edit"), systemImage: "pencil")
                             }
                             .tint(Color.themePrimary)
                         }
@@ -56,7 +56,7 @@ struct ModernDressingList: View {
                 Button { showNewDressing = true } label: {
                     HStack {
                         Image(systemName: "cabinet")
-                        Text("New")
+                        Text(String(localized: "new"))
                     }
                     .padding()
                     .background(Color.themeSecondary)
@@ -66,7 +66,7 @@ struct ModernDressingList: View {
                 }
                 .padding()
             }
-            .navigationTitle("My Dressings")
+            .navigationTitle(String(localized: "my_dressings"))
             .sheet(isPresented: $showNewDressing) {
                 ModernDressingFormView(editingDressing: nil)
             }
@@ -92,11 +92,11 @@ struct DressingRowCard: View {
             .cornerRadius(12)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(dressing.name ?? "Dressing")
+                Text(dressing.name ?? String(localized: "dressing"))
                     .font(.headline)
                     .foregroundStyle(Color.themeSecondary)
-                
-                Text("\(dressing.garments?.count ?? 0) garments")
+
+                Text(String(format: String(localized: "garments_count"), dressing.garments?.count ?? 0))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }

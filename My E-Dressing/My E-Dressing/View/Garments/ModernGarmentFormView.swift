@@ -39,13 +39,13 @@ struct ModernGarmentFormView: View {
                         photoSection
                         
                         VStack(spacing: 16) {
-                            ModernTextField(title: "TITLE *", text: $titleText)
-                            ModernTextField(title: "BRAND", text: $brandText)
+                            ModernTextField(title: String(localized: "title_required_placeholder"), text: $titleText)
+                            ModernTextField(title: String(localized: "brand_placeholder"), text: $brandText)
                             HStack(spacing: 12) {
-                                ModernTextField(title: "SIZE", text: $sizeText)
-                                ModernTextField(title: "COLOR", text: $colorText)
+                                ModernTextField(title: String(localized: "size_placeholder"), text: $sizeText)
+                                ModernTextField(title: String(localized: "color_placeholder"), text: $colorText)
                             }
-                            ModernTextField(title: "CATEGORY", text: $categoryText)
+                            ModernTextField(title: String(localized: "category_placeholder"), text: $categoryText)
                         }
                         
                         detailsSection
@@ -54,10 +54,10 @@ struct ModernGarmentFormView: View {
                     .padding()
                 }
             }
-            .navigationTitle(editingGarment == nil ? "New Garment" : "Edit")
+            .navigationTitle(editingGarment == nil ? String(localized: "new_garment") : String(localized: "edit"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button(String(localized: "cancel")) { dismiss() }
                 }
             }
             .sheet(isPresented: $isShowingPicker) {
@@ -74,7 +74,7 @@ struct ModernGarmentFormView: View {
 
     var photoSection: some View {
         VStack(alignment: .leading) {
-            Text("PHOTOS")
+            Text(String(localized: "photos_title"))
                 .font(.caption)
                 .bold()
                 .foregroundStyle(Color.themeSecondary)
@@ -86,7 +86,7 @@ struct ModernGarmentFormView: View {
                             Image(systemName: "camera.fill")
                                 .font(.title2)
                                 .foregroundStyle(Color.themePrimary)
-                            Text("Add")
+                            Text(String(localized: "add_title"))
                                 .font(.caption)
                                 .foregroundStyle(Color.themePrimary)
                         }
@@ -125,16 +125,16 @@ struct ModernGarmentFormView: View {
     
     var detailsSection: some View {
         VStack(alignment: .leading) {
-            Text("DETAILS")
+            Text(String(localized: "details_title"))
                 .font(.caption)
                 .bold()
                 .foregroundStyle(Color.themeSecondary)
             
             VStack {
                 HStack {
-                    Text("Status")
+                    Text(String(localized: "status_title"))
                     Spacer()
-                    Picker("Status", selection: $statusValue) {
+                    Picker(String(localized: "status_title"), selection: $statusValue) {
                         ForEach(GarmentStatus.allCases) {
                             Text($0.label).tag($0)
                         }
@@ -147,7 +147,7 @@ struct ModernGarmentFormView: View {
                 Divider()
                 
                 HStack {
-                    Text("Worn \(wearCount) times")
+                    Text(String(format: String(localized: "worn_count"), wearCount))
                     Spacer()
                     Stepper("", value: $wearCount, in: 0...999)
                         .labelsHidden()
@@ -161,7 +161,7 @@ struct ModernGarmentFormView: View {
     
     var saveButton: some View {
         Button { save() } label: {
-            Text("Save")
+            Text(String(localized: "save"))
                 .bold()
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)

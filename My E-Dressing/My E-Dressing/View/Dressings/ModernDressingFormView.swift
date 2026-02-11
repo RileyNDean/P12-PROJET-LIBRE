@@ -31,18 +31,18 @@ struct ModernDressingFormView: View {
                             .foregroundStyle(Color.themePrimary)
                     }
                     
-                    Text(editingDressing == nil ? "New Dressing" : "Edit")
+                    Text(editingDressing == nil ? String(localized: "new_dressing") : String(localized: "edit"))
                         .font(.title2.bold())
                         .foregroundStyle(Color.themeSecondary)
                 }
                 
-                ModernTextField(title: "DRESSING NAME", text: $name)
+                ModernTextField(title: String(localized: "dressing_name"), text: $name)
 
                 HStack(spacing: 16) {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Cancel")
+                        Text(String(localized: "cancel"))
                             .font(.headline)
                             .foregroundStyle(Color.themeSecondary)
                             .padding()
@@ -54,7 +54,7 @@ struct ModernDressingFormView: View {
                     Button {
                         save()
                     } label: {
-                        Text(editingDressing == nil ? "Create" : "Update")
+                        Text(editingDressing == nil ? String(localized: "create") : String(localized: "update"))
                             .font(.headline)
                             .foregroundColor(.white)
                             .padding()

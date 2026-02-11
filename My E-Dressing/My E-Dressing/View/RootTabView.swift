@@ -10,11 +10,11 @@ import SwiftUI
 struct RootTabView: View {
     var body: some View {
         TabView {
-            Text("Dressings")
-                .tabItem { Label("Dressings", systemImage: "cabinet") }
+            Text(String(localized: "tab_dressings"))
+                .tabItem { Label(String(localized: "tab_dressings"), systemImage: "cabinet") }
 
             GarmentFormView()
-                .tabItem { Label("Add", systemImage: "plus.circle") }
+                .tabItem { Label(String(localized: "tab_add"), systemImage: "plus.circle") }
         }
     }
 }

@@ -52,10 +52,10 @@ struct GarmentCardView: View {
 
             if isExpanded {
                 VStack(alignment: .leading, spacing: 6) {
-                    infoRow("Brand", garment.brand)
-                    infoRow("Color", garment.color)
-                    infoRow("Size", garment.size)
-                    infoRow("Category", garment.category)
+                    infoRow(String(localized: "brand_placeholder"), garment.brand)
+                    infoRow(String(localized: "color_placeholder"), garment.color)
+                    infoRow(String(localized: "size_placeholder"), garment.size)
+                    infoRow(String(localized: "category_placeholder"), garment.category)
                     if let notes = garment.notes, !notes.isEmpty {
                         Text(notes).font(.footnote).foregroundStyle(.secondary).padding(.top, 4)
                     }

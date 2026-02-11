@@ -56,7 +56,7 @@ struct ModernGarmentListView: View {
             Button { showAddForm = true } label: {
                 HStack {
                     Image(systemName: "tshirt")
-                    Text("Add")
+                    Text(String(localized: "add_title"))
                 }
                 .padding()
                 .background(Color.themeSecondary)
@@ -66,13 +66,13 @@ struct ModernGarmentListView: View {
             }
             .padding()
         }
-        .navigationTitle(dressing.name ?? "Dressing")
+        .navigationTitle(dressing.name ?? String(localized: "dressing"))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
-                    Button("Sort by date", action: {})
-                    Button("Sort by brand", action: {})
+                    Button(String(localized: "sort_by_date"), action: {})
+                    Button(String(localized: "sort_by_brand"), action: {})
                 } label: {
                     Image(systemName: "slider.horizontal.3")
                         .foregroundStyle(Color.themeSecondary)
@@ -94,10 +94,10 @@ struct EmptyStateView: View {
             Image(systemName: "hanger")
                 .font(.system(size: 60))
                 .foregroundStyle(Color.themeSecondary.opacity(0.2))
-            Text("This dressing is empty")
+            Text(String(localized: "empty_dressing_title"))
                 .font(.title3)
                 .foregroundStyle(Color.themeSecondary)
-            Text("Add your first garment by tapping the + button")
+            Text(String(localized: "empty_dressing_subtitle"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
