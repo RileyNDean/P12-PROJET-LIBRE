@@ -7,12 +7,11 @@
 
 import UIKit
 
-/// Saves/loads/deletes garment images in Documents/.
+/// Handles saving, loading and deleting garment images in the Documents directory.
 final class MediaStore {
     static let shared = MediaStore()
     private init() {}
 
-    /// Saves a UIImage as JPEG and returns absolute path.
     func saveJPEG(_ image: UIImage, quality: CGFloat = 0.9) throws -> String {
         guard let data = image.jpegData(compressionQuality: quality) else {
             throw ValidationError(message: "Invalid image data")
