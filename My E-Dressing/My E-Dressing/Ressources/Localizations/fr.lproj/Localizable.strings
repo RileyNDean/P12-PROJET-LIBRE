@@ -5,23 +5,47 @@
 //  Created by Dhayan Bourguignon on 06/10/2025.
 //
 
-dressings_title = "Dressings";
+// MARK: - General
 add_title = "Ajouter";
-new_dressing = "Nouveau dressing";
-name = "Nom";
 save = "Enregistrer";
 cancel = "Annuler";
-new_garment = "Nouveau vêtement";
-status_kept = "Conservé";
-status_to_give = "À donner";
-status_to_sell = "À vendre";
-status_to_recycle = "À recycler";
-settings_language_title = "Langue";
-confirm_delete_item = "Delete this garment?";
-confirm_delete_dressing = "Delete this dressing and its garments?";
+delete = "Supprimer";
+edit = "Modifier";
+ok = "OK";
+error_title = "Erreur";
+unexpected_error = "Erreur inattendue";
+rename = "Renommer";
+name = "Nom";
+new = "Nouveau";
+create = "Créer";
+update = "Modifier";
 
-// Additional keys used by GarmentsFormView
+// MARK: - Dressings
+dressings_title = "Dressings";
+my_dressings = "Mes Dressings";
+new_dressing = "Nouveau dressing";
+dressing = "Dressing";
+dressing_name = "NOM DU DRESSING";
+no_dressings_yet = "Vous n'avez pas encore de dressing";
+unnamed_dressing = "Dressing sans nom";
+confirm_delete_dressing = "Supprimer ce dressing et ses vêtements ?";
+confirm_delete_dressing_title = "Supprimer";
+default_dressing_name = "Mon dressing";
+new_dressing_default = "Nouveau dressing";
+no_dressings = "Aucun dressing";
+garments_count = "%lld vêtements";
+
+// MARK: - Garments
+new_garment = "Nouveau vêtement";
 edit_garment = "Modifier le vêtement";
+confirm_delete_item = "Supprimer ce vêtement ?";
+no_garments_yet = "Aucun vêtement";
+untitled = "Sans titre";
+empty_dressing_title = "Ce dressing est vide";
+empty_dressing_subtitle = "Ajoutez votre premier vêtement en appuyant sur le bouton +";
+edit_add_photos = "Modifier / Ajouter des photos";
+
+// MARK: - Garment Form
 photos_title = "Photos";
 photo_required = "Au moins une photo est requise";
 information_title = "Informations";
@@ -30,11 +54,35 @@ brand_placeholder = "Marque";
 color_placeholder = "Couleur";
 size_placeholder = "Taille";
 category_placeholder = "Catégorie";
-status_title = "Statut";
 notes_placeholder = "Notes";
-error_title = "Erreur";
-ok = "OK";
-unexpected_error = "Erreur inattendue";
-default_dressing_name = "Mon dressing";
-wearcount_title = "Times worn:";
+details_title = "Détails";
+wearcount_title = "Porté :";
+worn_count = "Porté %lld fois";
 
+// MARK: - Status
+status_title = "Statut";
+status_kept = "Conservé";
+status_to_give = "À donner";
+status_to_sell = "À vendre";
+status_to_recycle = "À recycler";
+
+// MARK: - Settings / Language
+settings_language_title = "Langue";
+open_language_settings = "Paramètres de langue";
+current_label = "Actuel :";
+locale_label = "Locale :";
+language_system = "Système";
+language_english = "English";
+language_french = "Français";
+
+// MARK: - Sort
+sort_by_date = "Trier par date";
+sort_by_brand = "Trier par marque";
+
+// MARK: - Tabs
+tab_dressings = "Dressings";
+tab_add = "Ajouter";
+
+// MARK: - App
+app_title = "My E‑Dressing";
+saving = "Enregistrement...";
