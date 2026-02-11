@@ -11,21 +11,17 @@ struct MainTabView: View {
     @State private var selectedTab = 0
 
     init() {
+        let greenBg = UIColor(red: 47/255, green: 72/255, blue: 66/255, alpha: 1) // #2F4842
+        let orangeAccent = UIColor(red: 217/255, green: 108/255, blue: 69/255, alpha: 1) // #D96C45
+
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(Color.themeSecondary)
-
-        let normalAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.white.withAlphaComponent(0.5)
-        ]
-        let selectedAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(Color.themePrimary)
-        ]
+        appearance.backgroundColor = greenBg
 
         appearance.stackedLayoutAppearance.normal.iconColor = UIColor.white.withAlphaComponent(0.5)
-        appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
-        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(Color.themePrimary)
-        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white.withAlphaComponent(0.5)]
+        appearance.stackedLayoutAppearance.selected.iconColor = orangeAccent
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: orangeAccent]
 
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
