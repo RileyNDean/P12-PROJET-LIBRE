@@ -15,10 +15,8 @@ struct My_E_DressingApp: App {
     let persistenceController = PersistenceController.shared
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                ModernDressingList()
-            }
-            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            MainTabView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

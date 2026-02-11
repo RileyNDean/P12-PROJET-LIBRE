@@ -80,8 +80,10 @@ sort_by_date = "Sort by date";
 sort_by_brand = "Sort by brand";
 
 // MARK: - Tabs
-tab_dressings = "Dressings";
-tab_add = "Add";
+tab_home = "Home";
+tab_search = "Search";
+tab_calendar = "Calendar";
+tab_profile = "Profile";
 
 // MARK: - App
 app_title = "My E‑Dressing";
