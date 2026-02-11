@@ -67,12 +67,28 @@ struct ModernDressingList: View {
                 .padding()
             }
             .navigationTitle(String(localized: "my_dressings"))
-            .sheet(isPresented: $showNewDressing) {
-                ModernDressingFormView(editingDressing: nil)
+            .overlay {
+                if showNewDressing || dressingToEdit != nil {
+                    Color.black.opacity(0.3)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            showNewDressing = false
+                            dressingToEdit = nil
+                        }
+                        .transition(.opacity)
+
+                    ModernDressingFormView(
+                        editingDressing: dressingToEdit,
+                        onDismiss: {
+                            showNewDressing = false
+                            dressingToEdit = nil
+                        }
+                    )
+                    .transition(.scale(scale: 0.9).combined(with: .opacity))
+                }
             }
-            .sheet(item: $dressingToEdit) { dressing in
-                ModernDressingFormView(editingDressing: dressing)
-            }
+            .animation(.easeInOut(duration: 0.25), value: showNewDressing)
+            .animation(.easeInOut(duration: 0.25), value: dressingToEdit)
         }
     }
 }
