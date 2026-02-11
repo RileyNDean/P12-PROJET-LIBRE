@@ -78,7 +78,7 @@ struct ModernDressingList: View {
 }
 
 struct DressingRowCard: View {
-    let dressing: Dressing
+    @ObservedObject var dressing: Dressing
     
     var body: some View {
         HStack(spacing: 16) {
