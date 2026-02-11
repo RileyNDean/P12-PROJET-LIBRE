@@ -27,7 +27,7 @@ struct DressingListView: View {
         Group {
             if dressings.isEmpty {
                 VStack(spacing: 12) {
-                    Text("Vous n'avez pas encore de dressing")
+                    Text("You don't have any dressings yet")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                 }
@@ -106,3 +106,4 @@ struct DressingListView: View {
         }
     }
 }
+

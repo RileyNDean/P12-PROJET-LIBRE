@@ -5,23 +5,17 @@
 //  Created by Dhayan Bourguignon on 06/10/2025.
 //
 
-// Form to create or edit a garment with multiple photos.
-
 import SwiftUI
 import CoreData
 import UIKit
 
-/// UI to create or edit a garment with multiple photos.
-/// This view delegates persistence to `GarmentController`.
 struct GarmentFormView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var managedObjectContext
 
-    // When not nil → edit mode; when nil → create mode.
     var editingGarment: Garment? = nil
     var selectedDressing: Dressing? = nil
 
-    // Text fields
     @State private var titleText: String = ""
     @State private var brandText: String = ""
     @State private var colorText: String = ""
@@ -31,12 +25,10 @@ struct GarmentFormView: View {
     @State private var wearCount: Int32 = 0
     @State private var statusValue: GarmentStatus = .kept
 
-    // Photos working set (acts as the view-model layer for images)
     @State private var workingPhotoItems: [PhotoItem] = []
     @State private var isShowingPicker: Bool = false
     @State private var pickerSelectedImages: [UIImage] = []
 
-    // UI state
     @State private var isSaving: Bool = false
     @State private var isShowingAlert: Bool = false
     @State private var alertMessage: String = ""
@@ -149,9 +141,8 @@ struct GarmentFormView: View {
         }
     }
 
-    // MARK: - Derived UI state
+    // MARK: - Derived State
 
-    /// Live validation for the Save button.
     private var canSave: Bool {
         let hasTitle = !titleText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let hasAtLeastOnePhoto = editingGarment != nil ? true : !workingPhotoItems.isEmpty
@@ -164,7 +155,6 @@ struct GarmentFormView: View {
 
     // MARK: - Lifecycle
 
-    /// Pre-fills fields and thumbnails when editing an existing garment.
     private func loadIfEditing() {
         guard let garment = editingGarment else { return }
         titleText = garment.title ?? ""
@@ -187,7 +177,6 @@ struct GarmentFormView: View {
 
     // MARK: - Actions
 
-    /// Saves changes by applying a diff: keep, add, remove. Enforces business rules in the controller.
     private func save() {
         isSaving = true
         defer { isSaving = false }
@@ -263,8 +252,6 @@ struct GarmentFormView: View {
         }
     }
 
-    /// Returns an existing dressing or creates a default one to allow quick testing.
-    /// - Throws: Any Core Data fetch/save error.
     private func fetchOrCreateDefaultDressing() throws -> Dressing {
         let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
         request.fetchLimit = 1

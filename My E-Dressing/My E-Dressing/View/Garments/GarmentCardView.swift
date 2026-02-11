@@ -52,10 +52,10 @@ struct GarmentCardView: View {
 
             if isExpanded {
                 VStack(alignment: .leading, spacing: 6) {
-                    infoRow("Marque", garment.brand)
-                    infoRow("Couleur", garment.color)
-                    infoRow("Taille", garment.size)
-                    infoRow("Catégorie", garment.category)
+                    infoRow("Brand", garment.brand)
+                    infoRow("Color", garment.color)
+                    infoRow("Size", garment.size)
+                    infoRow("Category", garment.category)
                     if let notes = garment.notes, !notes.isEmpty {
                         Text(notes).font(.footnote).foregroundStyle(.secondary).padding(.top, 4)
                     }
@@ -83,7 +83,7 @@ struct GarmentCardView: View {
     }
 }
 
-// MARK: - Composants locaux
+// MARK: - Private Components
 
 private struct PhotoThumb: View {
     let image: UIImage
