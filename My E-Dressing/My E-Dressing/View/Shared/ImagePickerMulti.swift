@@ -1,12 +1,13 @@
 //
-// UIKit PHPicker wrapper returning multiple UIImages via a SwiftUI representable.
+//  ImagePickerMulti.swift
+//  My E-Dressing
 //
 
 import SwiftUI
 import PhotosUI
 import UIKit
 
-/// SwiftUI wrapper around `PHPickerViewController` that returns multiple `UIImage` objects.
+/// PHPicker wrapper that returns multiple UIImages.
 struct ImagePickerMulti: UIViewControllerRepresentable {
     var imagesHandler: (([PhotoItem]) -> Void)?
     @Binding var images: [UIImage]
@@ -14,12 +15,14 @@ struct ImagePickerMulti: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration(photoLibrary: .shared())
         config.filter = .images
-        config.selectionLimit = 6 // 6 max
-        let vc = PHPickerViewController(configuration: config)
-        vc.delegate = context.coordinator
-        return vc
+        config.selectionLimit = 6
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = context.coordinator
+        return picker
     }
+
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+
     func makeCoordinator() -> Coordinator { Coordinator(self) }
 
     final class Coordinator: NSObject, PHPickerViewControllerDelegate {
@@ -43,7 +46,6 @@ struct ImagePickerMulti: UIViewControllerRepresentable {
                 let newItems = loaded.map { PhotoItem.new(image: $0) }
                 self.parent.imagesHandler?(newItems)
             }
-
         }
     }
 }

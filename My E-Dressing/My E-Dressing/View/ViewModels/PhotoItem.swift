@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-/// UI item representing either an existing persisted photo or a new one not yet saved.
+/// Represents either an existing persisted photo or a new one not yet saved.
 enum PhotoItem: Identifiable, Equatable {
     case existing(photoObject: GarmentPhoto, thumbnail: UIImage)
     case new(image: UIImage)
@@ -22,4 +22,3 @@ enum PhotoItem: Identifiable, Equatable {
         }
     }
 }
-
