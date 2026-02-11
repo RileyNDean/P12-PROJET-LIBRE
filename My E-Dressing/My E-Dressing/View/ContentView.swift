@@ -8,12 +8,9 @@
 import SwiftUI
 import CoreData
 
-/// Root view listing `Dressing` objects and providing language controls.
 struct ContentView: View {
-    /// Core Data managed object context injected via the environment.
     @Environment(\.managedObjectContext) private var viewContext
 
-    /// Live fetch request providing the current list of `Dressing` objects.
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Dressing.createdAt, ascending: true)],
         animation: .default)
@@ -24,7 +21,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section("Langue / Language") {
+                Section("Language") {
                     Picker("Language", selection: Binding(get: { languageController.selected }, set: { newLanguage in languageController.setLanguage(newLanguage) })) {
                         ForEach(AppLanguage.allCases) { option in
                             Text(option.label).tag(option)
@@ -74,7 +71,6 @@ struct ContentView: View {
         .onAppear { syncLanguageFromDefaults() }
     }
 
-    /// Creates a new `Dressing` with default values and saves it to Core Data.
     private func addDressing() {
         withAnimation {
             let newDressing = Dressing(context: viewContext)
@@ -91,7 +87,6 @@ struct ContentView: View {
         }
     }
 
-    /// Deletes selected `Dressing` objects and persists the change.
     private func deleteDressings(offsets: IndexSet) {
         withAnimation {
             offsets.map { dressings[$0] }.forEach(viewContext.delete)
@@ -105,7 +100,6 @@ struct ContentView: View {
         }
     }
     
-    /// Synchronizes `LanguageController` with the stored UserDefaults value.
     private func syncLanguageFromDefaults() {
         if let rawLanguageValue = UserDefaults.standard.string(forKey: "appLanguage"),
            let storedLanguage = AppLanguage(rawValue: rawLanguageValue),
@@ -115,7 +109,6 @@ struct ContentView: View {
     }
 }
 
-/// Shared date formatter for displaying creation dates.
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .short
