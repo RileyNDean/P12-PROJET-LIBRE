@@ -5,23 +5,47 @@
 //  Created by Dhayan Bourguignon on 06/10/2025.
 //
 
-dressings_title = "Dressings";
+// MARK: - General
 add_title = "Add";
-new_dressing = "New Dressing";
-name = "Name";
 save = "Save";
 cancel = "Cancel";
+delete = "Delete";
+edit = "Edit";
+ok = "OK";
+error_title = "Error";
+unexpected_error = "Unexpected error";
+rename = "Rename";
+name = "Name";
+new = "New";
+create = "Create";
+update = "Update";
+
+// MARK: - Dressings
+dressings_title = "Dressings";
+my_dressings = "My Dressings";
+new_dressing = "New Dressing";
+dressing = "Dressing";
+dressing_name = "DRESSING NAME";
+no_dressings_yet = "You don't have any dressings yet";
+unnamed_dressing = "Unnamed dressing";
+confirm_delete_dressing = "Delete this dressing and its garments?";
+confirm_delete_dressing_title = "Delete";
+default_dressing_name = "My Dressing";
+new_dressing_default = "New dressing";
+no_dressings = "No dressings";
+garments_count = "%lld garments";
+
+// MARK: - Garments
 new_garment = "New Garment";
 edit_garment = "Edit Garment";
-status_kept = "Kept";
-status_to_give = "To give";
-status_to_sell = "To sell";
-status_to_recycle = "To recycle";
-settings_language_title = "Language";
 confirm_delete_item = "Delete this garment?";
-confirm_delete_dressing = "Delete this dressing and its garments?";
+no_garments_yet = "No garments yet";
+untitled = "Untitled";
+empty_dressing_title = "This dressing is empty";
+empty_dressing_subtitle = "Add your first garment by tapping the + button";
+edit_add_photos = "Edit / Add photos";
 
-// Additional keys used by GarmentsFormView
+// MARK: - Garment Form
 photos_title = "Photos";
 photo_required = "At least one photo required";
 information_title = "Information";
@@ -30,11 +54,35 @@ brand_placeholder = "Brand";
 color_placeholder = "Color";
 size_placeholder = "Size";
 category_placeholder = "Category";
-status_title = "Status";
 notes_placeholder = "Notes";
-error_title = "Error";
-ok = "OK";
-unexpected_error = "Unexpected error";
-default_dressing_name = "My Dressing";
+details_title = "Details";
 wearcount_title = "Times worn:";
+worn_count = "Worn %lld times";
 
+// MARK: - Status
+status_title = "Status";
+status_kept = "Kept";
+status_to_give = "To give";
+status_to_sell = "To sell";
+status_to_recycle = "To recycle";
+
+// MARK: - Settings / Language
+settings_language_title = "Language";
+open_language_settings = "Open language settings";
+current_label = "Current:";
+locale_label = "Locale:";
+language_system = "System";
+language_english = "English";
+language_french = "Français";
+
+// MARK: - Sort
+sort_by_date = "Sort by date";
+sort_by_brand = "Sort by brand";
+
+// MARK: - Tabs
+tab_dressings = "Dressings";
+tab_add = "Add";
+
+// MARK: - App
+app_title = "My E‑Dressing";
+saving = "Saving...";
