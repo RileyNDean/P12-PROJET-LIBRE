@@ -72,7 +72,7 @@ struct ContentView: View {
         .onAppear { syncLanguageFromDefaults() }
     }
 
-    /// Creates a new dressing with a default name.
+    /// Adds a new dressing with a default name.
     private func addDressing() {
         withAnimation {
             let newDressing = Dressing(context: viewContext)
@@ -89,7 +89,7 @@ struct ContentView: View {
         }
     }
 
-    /// Deletes dressings at the given offsets.
+    /// Deletes dressings at given offsets.
     private func deleteDressings(offsets: IndexSet) {
         withAnimation {
             offsets.map { dressings[$0] }.forEach(viewContext.delete)
@@ -103,7 +103,7 @@ struct ContentView: View {
         }
     }
     
-    /// Syncs the language selection from UserDefaults on appear.
+    /// Syncs language from UserDefaults on appear.
     private func syncLanguageFromDefaults() {
         if let rawLanguageValue = UserDefaults.standard.string(forKey: "appLanguage"),
            let storedLanguage = AppLanguage(rawValue: rawLanguageValue),

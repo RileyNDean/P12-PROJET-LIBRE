@@ -155,7 +155,6 @@ struct GarmentFormView: View {
                                 .foregroundStyle(Color.themeSecondary)
                                 .padding(.leading, 4)
 
-                            // Row 1: Category + Size
                             HStack(spacing: 12) {
                                 CategoryCardView(
                                     categoryText: $categoryText,
@@ -167,7 +166,6 @@ struct GarmentFormView: View {
                                 )
                             }
 
-                            // Row 2: Status + Wear Count
                             HStack(spacing: 12) {
                                 StatusCardView(statusValue: $statusValue)
                                 WearCountCardView(wearCount: $wearCount)
@@ -292,7 +290,7 @@ struct GarmentFormView: View {
 
     // MARK: - Lifecycle
 
-    /// Populates the form fields from the garment being edited.
+    /// Loads garment data when editing.
     private func loadIfEditing() {
         guard let garment = editingGarment else { return }
         titleText = garment.title ?? ""
@@ -312,7 +310,7 @@ struct GarmentFormView: View {
 
     // MARK: - Actions
 
-    /// Validates inputs, persists changes via the controller and dismisses.
+    /// Saves the garment and dismisses.
     private func save() {
         isSaving = true
         defer { isSaving = false }
@@ -438,7 +436,6 @@ struct StatusCardView: View {
             Spacer()
 
             if showPicker {
-                // 2x2 status grid
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                     ForEach(GarmentStatus.allCases) { status in
                         Button {
@@ -600,6 +597,7 @@ struct WearCountCardView: View {
         )
     }
 
+    /// Validates and applies the manual wear count edit.
     private func commitEdit() {
         isEditing = false
         if let value = Int32(editText), value >= 0, value <= 999 {

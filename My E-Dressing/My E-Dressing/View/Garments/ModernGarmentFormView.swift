@@ -173,7 +173,7 @@ struct ModernGarmentFormView: View {
         .disabled(titleText.isEmpty)
     }
 
-    /// Extracts the displayable thumbnail image from a photo item.
+    /// Returns the thumbnail for a photo item.
     func thumbnail(for item: PhotoItem) -> UIImage {
         switch item {
         case .existing(_, let t):
@@ -183,7 +183,7 @@ struct ModernGarmentFormView: View {
         }
     }
     
-    /// Populates the form fields from the existing garment when editing.
+    /// Loads garment data when editing.
     func loadData() {
         if let g = editingGarment {
             titleText = g.title ?? ""
@@ -201,7 +201,7 @@ struct ModernGarmentFormView: View {
         }
     }
     
-    /// Persists the garment (creates or updates) and dismisses the form.
+    /// Saves the garment and dismisses.
     func save() {
         let controller = GarmentController(managedObjectContext: viewContext)
         do {

@@ -100,18 +100,17 @@ struct GarmentListView: View {
         
     }
 
-    // Actions
-    /// Updates the status of a garment via the controller.
+    /// Changes a garment's status.
     private func changeStatus(_ garment: Garment, to newStatus: GarmentStatus) {
         do { try GarmentController(managedObjectContext: managedObjectContext).changeStatus(garment, to: newStatus) }
         catch { alertMessage = String(localized: "unexpected_error"); isShowingAlert = true }
     }
-    /// Increments the wear count of a garment via the controller.
+    /// Increments wear count by one.
     private func incrementWearCount(_ garment: Garment) {
         do { try GarmentController(managedObjectContext: managedObjectContext).incrementWearCount(garment) }
         catch { alertMessage = String(localized: "unexpected_error"); isShowingAlert = true }
     }
-    /// Deletes the given garments via the controller.
+    /// Deletes the given garments.
     private func deleteGarments(_ garments: [Garment]) {
         do {
             let controller = GarmentController(managedObjectContext: managedObjectContext)
