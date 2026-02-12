@@ -8,14 +8,9 @@
 import Foundation
 
 /// Handles garment search/filtering logic.
-/// Keeps business logic out of the View layer.
 final class SearchController {
 
-    /// Filters garments matching the given query across all fields.
-    /// - Parameters:
-    ///   - garments: The full list of garments to search.
-    ///   - query: The user's search text.
-    /// - Returns: Filtered garments matching the query.
+    /// Filters garments matching the query.
     func search(garments: [Garment], query: String) -> [Garment] {
         let trimmed = query.trimmingCharacters(in: .whitespaces).lowercased()
         guard !trimmed.isEmpty else { return [] }

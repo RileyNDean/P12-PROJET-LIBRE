@@ -23,12 +23,10 @@ struct DailyTipView: View {
                     Spacer()
 
                     VStack(spacing: 24) {
-                        // Date
                         Text(DailyTipCatalog.todayDateString.capitalized)
                             .font(.sansCaption)
                             .foregroundStyle(Color.themeSecondary.opacity(0.5))
 
-                        // Weather icon (or leaf fallback)
                         VStack(spacing: 8) {
                             Image(systemName: weatherController.iconName)
                                 .font(.system(size: 36))
@@ -45,7 +43,6 @@ struct DailyTipView: View {
                             }
                         }
 
-                        // Tip text
                         Text(DailyTipCatalog.todayTip)
                             .font(.serifTitle3)
                             .foregroundStyle(Color.themeSecondary)
@@ -65,7 +62,6 @@ struct DailyTipView: View {
 
                     Spacer()
 
-                    // Bottom message
                     Text(String(localized: "tip_footer_weather"))
                         .font(.sansCaption2)
                         .foregroundStyle(Color.themeSecondary.opacity(0.3))

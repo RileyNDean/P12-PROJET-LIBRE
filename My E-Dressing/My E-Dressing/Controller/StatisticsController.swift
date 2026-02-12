@@ -23,10 +23,9 @@ struct WardrobeStatistics {
 }
 
 /// Computes wardrobe statistics from a collection of garments.
-/// Keeps business logic out of the View layer.
 final class StatisticsController {
 
-    /// Computes all statistics from the given garment list.
+    /// Computes all stats from the garment list.
     func computeStatistics(from garments: [Garment]) -> WardrobeStatistics {
         let total = garments.count
 
