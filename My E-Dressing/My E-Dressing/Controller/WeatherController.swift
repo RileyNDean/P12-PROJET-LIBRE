@@ -42,6 +42,7 @@ final class WeatherController: NSObject, ObservableObject {
     private var cachedWeather: WeatherData?
     private let cacheInterval: TimeInterval = 30 * 60
 
+    /// Sets up the location manager.
     override init() {
         super.init()
         locationManager.delegate = self
@@ -71,7 +72,7 @@ final class WeatherController: NSObject, ObservableObject {
         }
     }
 
-    /// Calls the OpenWeatherMap Current Weather API.
+    /// Calls the OpenWeatherMap API.
     private func fetchWeather(latitude: Double, longitude: Double) {
         let apiKey = APIKeys.openWeatherMap
         let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&units=metric&lang=fr&appid=\(apiKey)"
@@ -106,7 +107,7 @@ final class WeatherController: NSObject, ObservableObject {
         }.resume()
     }
 
-    /// Parses the OpenWeatherMap JSON response into a WeatherData value.
+    /// Parses the JSON response into a WeatherData.
     private func parseWeatherJSON(_ data: Data) throws -> WeatherData {
         guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
               let main = json["main"] as? [String: Any],
@@ -135,24 +136,26 @@ final class WeatherController: NSObject, ObservableObject {
 
 extension WeatherController: CLLocationManagerDelegate {
 
+    /// Called when a location is received.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         fetchWeather(latitude: location.coordinate.latitude,
                      longitude: location.coordinate.longitude)
     }
 
+    /// Called when location fails.
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         DispatchQueue.main.async {
             self.state = .error
         }
     }
 
+    /// Called when authorization status changes.
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
-            if case .loading = state {
-                manager.requestLocation()
-            }
+            state = .loading
+            manager.requestLocation()
         case .denied, .restricted:
             DispatchQueue.main.async {
                 self.state = .error
