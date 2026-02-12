@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 import UIKit
 
+/// Form for creating or editing a garment (photos, metadata, category, size, status).
 struct GarmentFormView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -32,91 +33,213 @@ struct GarmentFormView: View {
     @State private var isSaving: Bool = false
     @State private var isShowingAlert: Bool = false
     @State private var alertMessage: String = ""
+    @State private var isShowingCategoryPicker: Bool = false
+    @State private var isShowingSizePicker: Bool = false
 
     var body: some View {
         NavigationStack {
-            Form {
-                // MARK: - Photos
-                Section(String(localized: "photos_title")) {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 12) {
-                            Button { isShowingPicker = true } label: {
-                                VStack {
-                                    Image(systemName: "plus.circle").font(.largeTitle)
-                                    Text(String(localized: "add_title"))
-                                }
-                                .frame(width: 96, height: 96)
-                                .background(Color.gray.opacity(0.15))
-                                .cornerRadius(12)
-                            }
+            ZStack {
+                Color.themeBackground.ignoresSafeArea()
 
-                            ForEach(Array(workingPhotoItems.enumerated()), id: \.element.id) { index, photoItem in
-                                let thumbnail: UIImage = {
-                                    switch photoItem {
-                                    case .existing(_, let existingThumbnail): return existingThumbnail
-                                    case .new(let newImage): return newImage
-                                    }
-                                }()
+                ScrollView {
+                    VStack(spacing: 24) {
 
-                                ZStack(alignment: .topTrailing) {
-                                    Image(uiImage: thumbnail)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 96, height: 96)
-                                        .clipped()
+                        // MARK: - Header
+                        VStack(spacing: 6) {
+                            Image(systemName: "tshirt.fill")
+                                .font(.system(size: 28))
+                                .foregroundStyle(Color.themePrimary)
+                                .frame(width: 60, height: 60)
+                                .background(Color.themePrimary.opacity(0.15))
+                                .clipShape(Circle())
+
+                            Text(editingGarment == nil ? String(localized: "new_garment") : String(localized: "edit_garment"))
+                                .font(.serifTitle)
+                                .foregroundStyle(Color.themeSecondary)
+                        }
+
+                        // MARK: - Photos
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(String(localized: "photos_title"))
+                                .font(.sansCaption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color.themeSecondary)
+                                .padding(.leading, 4)
+
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 12) {
+                                    Button { isShowingPicker = true } label: {
+                                        VStack(spacing: 6) {
+                                            Image(systemName: "camera.fill")
+                                                .font(.system(size: 22))
+                                                .foregroundStyle(Color.themePrimary)
+                                            Text(String(localized: "add_title"))
+                                                .font(.sansCaption)
+                                                .foregroundStyle(Color.themePrimary)
+                                        }
+                                        .frame(width: 80, height: 100)
+                                        .background(Color.white)
                                         .cornerRadius(12)
-
-                                    Button {
-                                        workingPhotoItems.remove(at: index)
-                                    } label: {
-                                        Image(systemName: "xmark.circle.fill").foregroundStyle(.red)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.themePrimary.opacity(0.3),
+                                                        style: StrokeStyle(lineWidth: 1.5, dash: [6]))
+                                        )
                                     }
-                                    .offset(x: 6, y: -6)
+
+                                    ForEach(Array(workingPhotoItems.enumerated()), id: \.element.id) { index, photoItem in
+                                        let thumbnail: UIImage = {
+                                            switch photoItem {
+                                            case .existing(_, let existingThumbnail): return existingThumbnail
+                                            case .new(let newImage): return newImage
+                                            }
+                                        }()
+
+                                        ZStack(alignment: .topTrailing) {
+                                            Image(uiImage: thumbnail)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 80, height: 100)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                                            Button {
+                                                workingPhotoItems.remove(at: index)
+                                            } label: {
+                                                Image(systemName: "xmark.circle.fill")
+                                                    .font(.system(size: 18))
+                                                    .foregroundStyle(.white)
+                                                    .background(Circle().fill(Color.red).frame(width: 20, height: 20))
+                                            }
+                                            .offset(x: 6, y: -6)
+                                        }
+                                    }
                                 }
                             }
+
+                            if shouldShowPhotoRequirementHint {
+                                Text(String(localized: "photo_required"))
+                                    .font(.sansCaption)
+                                    .foregroundStyle(Color.themePrimary.opacity(0.7))
+                                    .padding(.leading, 4)
+                            }
                         }
-                        .padding(.vertical, 4)
-                    }
 
-                    Text(shouldShowPhotoRequirementHint ? String(localized: "photo_required") : "")
-                        .foregroundStyle(.secondary)
-                }
+                        // MARK: - Informations
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(String(localized: "information_title"))
+                                .font(.sansCaption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color.themeSecondary)
+                                .padding(.leading, 4)
 
-                // MARK: - Information
-                Section(String(localized: "information_title")) {
-                    TextField(String(localized: "title_required_placeholder"), text: $titleText)
-                    TextField(String(localized: "brand_placeholder"), text: $brandText)
-                    TextField(String(localized: "color_placeholder"), text: $colorText)
-                    TextField(String(localized: "size_placeholder"), text: $sizeText)
-                    TextField(String(localized: "category_placeholder"), text: $categoryText)
-
-                    Picker(String(localized: "status_title"), selection: $statusValue) {
-                        ForEach(GarmentStatus.allCases) { status in
-                            Text(status.label).tag(status)
+                            VStack(spacing: 0) {
+                                FormTextField(placeholder: String(localized: "title_required_placeholder"), text: $titleText, isRequired: true)
+                                FormDivider()
+                                FormTextField(placeholder: String(localized: "brand_placeholder"), text: $brandText)
+                                FormDivider()
+                                FormTextField(placeholder: String(localized: "color_placeholder"), text: $colorText)
+                            }
+                            .background(Color.white)
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.themeSecondary.opacity(0.08), lineWidth: 1)
+                            )
                         }
+
+                        // MARK: - Details
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(String(localized: "details_title"))
+                                .font(.sansCaption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color.themeSecondary)
+                                .padding(.leading, 4)
+
+                            // Row 1: Category + Size
+                            HStack(spacing: 12) {
+                                CategoryCardView(
+                                    categoryText: $categoryText,
+                                    isShowingPicker: $isShowingCategoryPicker
+                                )
+                                SizeCardView(
+                                    sizeText: $sizeText,
+                                    isShowingPicker: $isShowingSizePicker
+                                )
+                            }
+
+                            // Row 2: Status + Wear Count
+                            HStack(spacing: 12) {
+                                StatusCardView(statusValue: $statusValue)
+                                WearCountCardView(wearCount: $wearCount)
+                            }
+                        }
+
+                        // MARK: - Notes
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(String(localized: "notes_placeholder"))
+                                .font(.sansCaption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color.themeSecondary)
+                                .padding(.leading, 4)
+
+                            TextField(String(localized: "notes_placeholder"), text: $notesText, axis: .vertical)
+                                .font(.sansBody)
+                                .lineLimit(3...6)
+                                .padding(16)
+                                .background(Color.white)
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.themeSecondary.opacity(0.08), lineWidth: 1)
+                                )
+                        }
+
+                        // MARK: - Buttons
+                        HStack(spacing: 16) {
+                            Button {
+                                dismiss()
+                            } label: {
+                                Text(String(localized: "cancel"))
+                                    .font(.sansHeadline)
+                                    .foregroundStyle(Color.themeSecondary)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.gray.opacity(0.1))
+                                    .cornerRadius(16)
+                            }
+
+                            Button {
+                                save()
+                            } label: {
+                                Text(String(localized: "save"))
+                                    .font(.sansHeadline)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .frame(maxWidth: .infinity)
+                                    .background(canSave ? Color.themePrimary : Color.gray.opacity(0.3))
+                                    .cornerRadius(16)
+                            }
+                            .disabled(!canSave)
+                        }
+                        .padding(.bottom, 16)
                     }
-                    Stepper(
-                        String(localized: "wearcount_title") + " \(wearCount)",
-                        value: $wearCount,
-                        in: 0...999
-                    )
-                    .accessibilityIdentifier("wearCountStepper")
-
-
-                    TextField(String(localized: "notes_placeholder"), text: $notesText, axis: .vertical)
+                    .padding(20)
                 }
             }
-            .navigationTitle(editingGarment == nil ? String(localized: "new_garment") : String(localized: "edit_garment"))
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(String(localized: "cancel")) { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(String(localized: "save")) { save() }.disabled(!canSave)
+                ToolbarItem(placement: .principal) {
+                    Text("")
                 }
             }
             .sheet(isPresented: $isShowingPicker) {
                 ImagePickerMulti(images: $pickerSelectedImages)
+            }
+            .sheet(isPresented: $isShowingCategoryPicker) {
+                CategoryPickerView(selectedCategoryId: categoryOptionalId)
+            }
+            .sheet(isPresented: $isShowingSizePicker) {
+                SizePickerView(selectedSizeId: sizeOptionalId)
             }
             .onChange(of: pickerSelectedImages) { _, selectedImages in
                 let newItems = selectedImages.map { PhotoItem.new(image: $0) }
@@ -143,6 +266,20 @@ struct GarmentFormView: View {
 
     // MARK: - Derived State
 
+    private var categoryOptionalId: Binding<String?> {
+        Binding<String?>(
+            get: { categoryText.isEmpty ? nil : categoryText },
+            set: { categoryText = $0 ?? "" }
+        )
+    }
+
+    private var sizeOptionalId: Binding<String?> {
+        Binding<String?>(
+            get: { sizeText.isEmpty ? nil : sizeText },
+            set: { sizeText = $0 ?? "" }
+        )
+    }
+
     private var canSave: Bool {
         let hasTitle = !titleText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let hasAtLeastOnePhoto = editingGarment != nil ? true : !workingPhotoItems.isEmpty
@@ -155,6 +292,7 @@ struct GarmentFormView: View {
 
     // MARK: - Lifecycle
 
+    /// Populates the form fields from the garment being edited.
     private func loadIfEditing() {
         guard let garment = editingGarment else { return }
         titleText = garment.title ?? ""
@@ -166,17 +304,15 @@ struct GarmentFormView: View {
         wearCount = garment.wearCount
         statusValue = GarmentStatus(rawValue: garment.statusRaw) ?? .kept
 
-        workingPhotoItems = garment.orderedPhotos.compactMap { garmentPhoto in
-            guard
-                let absolutePath = garmentPhoto.path,
-                let thumbnailImage = MediaStore.shared.loadImage(at: absolutePath)
-            else { return nil }
-            return .existing(photoObject: garmentPhoto, thumbnail: thumbnailImage)
+        workingPhotoItems = garment.allLoadedImages.compactMap { item in
+            guard let photo = garment.orderedPhotos.first(where: { $0.id == item.id }) else { return nil }
+            return .existing(photoObject: photo, thumbnail: item.image)
         }
     }
 
     // MARK: - Actions
 
+    /// Validates inputs, persists changes via the controller and dismisses.
     private func save() {
         isSaving = true
         defer { isSaving = false }
@@ -223,7 +359,8 @@ struct GarmentFormView: View {
                 try controller.validateHasAtLeastOnePhoto(garment)
 
             } else {
-                let dressing = try selectedDressing ?? fetchOrCreateDefaultDressing()
+                let dressingCtrl = DressingController(managedObjectContext: managedObjectContext)
+                let dressing = try selectedDressing ?? dressingCtrl.fetchOrCreateDefault()
                 let photosForCreation: [UIImage] = workingPhotoItems.compactMap {
                     if case let .new(newImage) = $0 { return newImage } else { return nil }
                 }
@@ -251,12 +388,324 @@ struct GarmentFormView: View {
             isShowingAlert = true
         }
     }
+}
 
-    private func fetchOrCreateDefaultDressing() throws -> Dressing {
-        let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
-        request.fetchLimit = 1
-        if let first = try managedObjectContext.fetch(request).first { return first }
-        return try DressingController(managedObjectContext: managedObjectContext).create(name: String(localized: "default_dressing_name"))
+// MARK: - Form Components
+
+/// A single-line text field used inside the form.
+private struct FormTextField: View {
+    let placeholder: String
+    @Binding var text: String
+    var isRequired: Bool = false
+
+    var body: some View {
+        HStack(spacing: 0) {
+            TextField(placeholder, text: $text)
+                .font(.sansBody)
+                .foregroundStyle(Color.themeSecondary)
+            if isRequired && text.isEmpty {
+                Text("*")
+                    .font(.sansBody)
+                    .foregroundStyle(Color.themePrimary)
+            }
+        }
+        .padding(.horizontal, 16)
+        .frame(height: 50)
     }
 }
 
+/// A thin horizontal divider used between form fields.
+private struct FormDivider: View {
+    var body: some View {
+        Rectangle()
+            .fill(Color.themeSecondary.opacity(0.08))
+            .frame(height: 1)
+            .padding(.leading, 16)
+    }
+}
+
+// MARK: - Status Card
+
+/// Shows "+" with "Statut" label. Tap opens a 2x2 grid to pick a status.
+/// Once picked, shows the status icon + label. Tap again to change.
+struct StatusCardView: View {
+    @Binding var statusValue: GarmentStatus
+    @State private var showPicker = false
+    @State private var hasSelected = false
+
+    var body: some View {
+        VStack(spacing: 10) {
+            Spacer()
+
+            if showPicker {
+                // 2x2 status grid
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                    ForEach(GarmentStatus.allCases) { status in
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                statusValue = status
+                                hasSelected = true
+                                showPicker = false
+                            }
+                        } label: {
+                            VStack(spacing: 4) {
+                                Image(systemName: status.icon)
+                                    .font(.system(size: 22))
+                                    .foregroundStyle(statusValue == status && hasSelected ? Color.themePrimary : Color.themeSecondary)
+                                Text(status.label)
+                                    .font(.sansCaption2)
+                                    .foregroundStyle(Color.themeSecondary)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.7)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
+                            .background(statusValue == status && hasSelected ? Color.themePrimary.opacity(0.12) : Color.clear)
+                            .cornerRadius(8)
+                        }
+                    }
+                }
+            } else if hasSelected {
+                // Status selected — show icon, tappable to change
+                Button {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                        showPicker = true
+                    }
+                } label: {
+                    Image(systemName: statusValue.icon)
+                        .font(.system(size: 28, weight: .semibold))
+                        .foregroundStyle(Color.themePrimary)
+                        .frame(width: 50, height: 50)
+                        .background(Color.themePrimary.opacity(0.12))
+                        .clipShape(Circle())
+                }
+            } else {
+                // Initial state — "+" button
+                Button {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                        showPicker = true
+                    }
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 28, weight: .semibold))
+                        .foregroundStyle(Color.themePrimary)
+                        .frame(width: 50, height: 50)
+                        .background(Color.themePrimary.opacity(0.12))
+                        .clipShape(Circle())
+                }
+            }
+
+            Spacer()
+
+            Text(hasSelected && !showPicker ? statusValue.label : String(localized: "status_title"))
+                .font(.sansCaption)
+                .foregroundStyle(Color.themeSecondary)
+                .lineLimit(1)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, minHeight: 120)
+        .background(Color.white)
+        .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.themeSecondary.opacity(0.08), lineWidth: 1)
+        )
+        .onAppear {
+            // If editing an existing garment, mark as already selected
+            if statusValue != .kept {
+                hasSelected = true
+            }
+        }
+    }
+}
+
+// MARK: - Wear Count Card
+
+/// Card with "−" [tappable number] "+", label below. Tap the number for manual keyboard input.
+struct WearCountCardView: View {
+    @Binding var wearCount: Int32
+    @State private var isEditing = false
+    @State private var editText = ""
+    @FocusState private var textFieldFocused: Bool
+
+    var body: some View {
+        VStack(spacing: 10) {
+            Spacer()
+
+            HStack(spacing: 16) {
+                Button {
+                    if wearCount > 0 { wearCount -= 1 }
+                    editText = "\(wearCount)"
+                } label: {
+                    Image(systemName: "minus")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(wearCount > 0 ? Color.themePrimary : Color.themeSecondary.opacity(0.2))
+                        .frame(width: 36, height: 36)
+                        .background(Color.themePrimary.opacity(0.12))
+                        .clipShape(Circle())
+                }
+                .disabled(wearCount <= 0)
+
+                if isEditing {
+                    TextField("0", text: $editText)
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundStyle(Color.themePrimary)
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.center)
+                        .frame(minWidth: 40, maxWidth: 60)
+                        .focused($textFieldFocused)
+                        .onSubmit { commitEdit() }
+                        .onChange(of: textFieldFocused) { _, focused in
+                            if !focused { commitEdit() }
+                        }
+                } else {
+                    Text("\(wearCount)")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundStyle(Color.themePrimary)
+                        .frame(minWidth: 30)
+                        .onTapGesture {
+                            editText = wearCount == 0 ? "" : "\(wearCount)"
+                            isEditing = true
+                            textFieldFocused = true
+                        }
+                }
+
+                Button {
+                    if wearCount < 999 { wearCount += 1 }
+                    editText = "\(wearCount)"
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(Color.themePrimary)
+                        .frame(width: 36, height: 36)
+                        .background(Color.themePrimary.opacity(0.12))
+                        .clipShape(Circle())
+                }
+                .disabled(wearCount >= 999)
+            }
+
+            Spacer()
+
+            Text(String(localized: "wearcount_title"))
+                .font(.sansCaption)
+                .foregroundStyle(Color.themeSecondary)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, minHeight: 120)
+        .background(Color.white)
+        .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.themeSecondary.opacity(0.08), lineWidth: 1)
+        )
+    }
+
+    private func commitEdit() {
+        isEditing = false
+        if let value = Int32(editText), value >= 0, value <= 999 {
+            wearCount = value
+        }
+        editText = "\(wearCount)"
+    }
+}
+
+// MARK: - Category Card
+
+/// Shows "+" with "Catégorie" label. Tap opens the category picker sheet.
+/// Once picked, shows the category icon + label. Tap again to change.
+struct CategoryCardView: View {
+    @Binding var categoryText: String
+    @Binding var isShowingPicker: Bool
+
+    private var selectedCategory: GarmentCategory? {
+        GarmentCategoryCatalog.find(by: categoryText)
+    }
+
+    var body: some View {
+        Button { isShowingPicker = true } label: {
+            VStack(spacing: 10) {
+                Spacer()
+
+                if let cat = selectedCategory {
+                    Image(cat.iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 44, height: 44)
+                } else {
+                    Image(systemName: "plus")
+                        .font(.system(size: 28, weight: .semibold))
+                        .foregroundStyle(Color.themePrimary)
+                        .frame(width: 50, height: 50)
+                        .background(Color.themePrimary.opacity(0.12))
+                        .clipShape(Circle())
+                }
+
+                Spacer()
+
+                Text(selectedCategory?.label ?? String(localized: "category_placeholder"))
+                    .font(.sansCaption)
+                    .foregroundStyle(Color.themeSecondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, minHeight: 120)
+            .background(Color.white)
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.themeSecondary.opacity(0.08), lineWidth: 1)
+            )
+        }
+    }
+}
+
+// MARK: - Size Card
+
+/// Shows "+" with "Taille" label. Tap opens the size picker sheet.
+/// Once picked, shows the size in large serif font. Tap again to change.
+struct SizeCardView: View {
+    @Binding var sizeText: String
+    @Binding var isShowingPicker: Bool
+
+    private var selectedSize: SizeOption? {
+        SizeCatalog.find(by: sizeText)
+    }
+
+    var body: some View {
+        Button { isShowingPicker = true } label: {
+            VStack(spacing: 10) {
+                Spacer()
+
+                if let size = selectedSize {
+                    Text(size.display)
+                        .font(.serifTitle)
+                        .fontWeight(.light)
+                        .foregroundStyle(Color.themeSecondary)
+                } else {
+                    Image(systemName: "plus")
+                        .font(.system(size: 28, weight: .semibold))
+                        .foregroundStyle(Color.themePrimary)
+                        .frame(width: 50, height: 50)
+                        .background(Color.themePrimary.opacity(0.12))
+                        .clipShape(Circle())
+                }
+
+                Spacer()
+
+                Text(selectedSize != nil ? String(localized: "size_placeholder") : String(localized: "size_placeholder"))
+                    .font(.sansCaption)
+                    .foregroundStyle(Color.themeSecondary)
+                    .lineLimit(1)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, minHeight: 120)
+            .background(Color.white)
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.themeSecondary.opacity(0.08), lineWidth: 1)
+            )
+        }
+    }
+}
