@@ -22,37 +22,56 @@ struct ModernDressingList: View {
             ZStack {
                 Color.themeBackground.ignoresSafeArea()
 
-                List {
-                    ForEach(dressings) { dressing in
-                        ZStack {
-                            NavigationLink(destination: ModernGarmentListView(dressing: dressing)) {
-                                EmptyView()
-                            }
-                            .opacity(0)
+                if dressings.isEmpty {
+                    VStack(spacing: 16) {
+                        Image(systemName: "cabinet.fill")
+                            .font(.system(size: 60))
+                            .foregroundStyle(Color.themeSecondary.opacity(0.18))
 
-                            DressingRowCard(dressing: dressing)
-                        }
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                viewContext.delete(dressing)
-                                try? viewContext.save()
-                            } label: {
-                                Label(String(localized: "delete"), systemImage: "trash")
-                            }
+                        Text(String(localized: "empty_dressings_title"))
+                            .font(.serifHeadline)
+                            .foregroundStyle(Color.themeSecondary.opacity(0.5))
 
-                            Button {
-                                dressingToEdit = dressing
-                            } label: {
-                                Label(String(localized: "edit"), systemImage: "pencil")
+                        Text(String(localized: "empty_dressings_subtitle"))
+                            .font(.sansCaption)
+                            .foregroundStyle(Color.themeSecondary.opacity(0.3))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 40)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    List {
+                        ForEach(dressings) { dressing in
+                            ZStack {
+                                NavigationLink(destination: ModernGarmentListView(dressing: dressing)) {
+                                    EmptyView()
+                                }
+                                .opacity(0)
+
+                                DressingRowCard(dressing: dressing)
                             }
-                            .tint(Color.themePrimary)
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    viewContext.delete(dressing)
+                                    try? viewContext.save()
+                                } label: {
+                                    Label(String(localized: "delete"), systemImage: "trash")
+                                }
+
+                                Button {
+                                    dressingToEdit = dressing
+                                } label: {
+                                    Label(String(localized: "edit"), systemImage: "pencil")
+                                }
+                                .tint(Color.themePrimary)
+                            }
                         }
                     }
+                    .listStyle(.plain)
                 }
-                .listStyle(.plain)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
