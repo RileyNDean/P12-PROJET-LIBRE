@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "9F32D138-CC2D-4A18-BF40-BBA80AB84322",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:My E-Dressing.xcodeproj",
+      "identifier" : "539BA00B2E93C3B5000BD78B",
+      "name" : "My E-Dressing"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:My E-Dressing.xcodeproj",
+        "identifier" : "539BA01D2E93C3B5000BD78B",
+        "name" : "My E-DressingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:My E-Dressing.xcodeproj",
+        "identifier" : "539BA0272E93C3B5000BD78B",
+        "name" : "My E-DressingUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
