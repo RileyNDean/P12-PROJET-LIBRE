@@ -1,0 +1,9 @@
+# Xcode user data
+*.xcuserstate
+xcuserdata/
+
+# macOS
+.DS_Store
+
+# API Keys (secrets)
+**/APIKeys.swift
