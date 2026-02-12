@@ -33,6 +33,8 @@ confirm_delete_dressing_title = "Delete";
 default_dressing_name = "My Dressing";
 new_dressing_default = "New dressing";
 no_dressings = "No dressings";
+empty_dressings_title = "No dressings yet";
+empty_dressings_subtitle = "Create your first dressing by tapping the + button";
 garments_count = "%lld garments";
 
 // MARK: - Garments
@@ -43,7 +45,7 @@ no_garments_yet = "No garments yet";
 untitled = "Untitled";
 empty_dressing_title = "This dressing is empty";
 empty_dressing_subtitle = "Add your first garment by tapping the + button";
-edit_add_photos = "Edit / Add photos";
+edit_add_photos = "Edit";
 
 // MARK: - Garment Form
 photos_title = "Photos";

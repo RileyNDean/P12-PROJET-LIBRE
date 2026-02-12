@@ -12,6 +12,7 @@ struct ModernGarmentRow: View {
     let garment: Garment
     @Binding var expandedGarmentId: UUID?
     let onEdit: () -> Void
+    let onDelete: () -> Void
 
     var isExpanded: Bool {
         expandedGarmentId == garment.id
@@ -30,7 +31,6 @@ struct ModernGarmentRow: View {
                 .foregroundStyle(Color.themeSecondary.opacity(0.5))
         ))
 
-        // Brand (text)
         if let brand = garment.brand, !brand.isEmpty {
             parts.append(AnyView(
                 Text(brand)
@@ -104,7 +104,6 @@ struct ModernGarmentRow: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Divider().background(Color.themeSecondary.opacity(0.1))
 
-                    // Photo thumbnails
                     let images = allImages
                     if !images.isEmpty {
                         if images.count == 1, let item = images.first {
@@ -139,17 +138,32 @@ struct ModernGarmentRow: View {
                         DetailItem(icon: "arrow.counterclockwise", title: String(localized: "wearcount_title"), value: String(format: String(localized: "worn_count"), garment.wearCount))
                     }
 
-                    Button(action: onEdit) {
-                        HStack {
-                            Image(systemName: "pencil")
-                            Text(String(localized: "edit_add_photos"))
+                    HStack(spacing: 12) {
+                        Button(action: onEdit) {
+                            HStack {
+                                Image(systemName: "pencil")
+                                Text(String(localized: "edit_add_photos"))
+                            }
+                            .font(.sansHeadline)
+                            .foregroundColor(Color.themePrimary)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.themePrimary.opacity(0.1))
+                            .cornerRadius(10)
                         }
-                        .font(.sansHeadline)
-                        .foregroundColor(Color.themePrimary)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.themePrimary.opacity(0.1))
-                        .cornerRadius(10)
+
+                        Button(action: onDelete) {
+                            HStack {
+                                Image(systemName: "trash")
+                                Text(String(localized: "delete"))
+                            }
+                            .font(.sansHeadline)
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.red.opacity(0.1))
+                            .cornerRadius(10)
+                        }
                     }
                 }
                 .padding(16)
@@ -205,7 +219,6 @@ struct FullscreenImageView: View {
                     dismiss()
                 }
 
-            // Close button top-right
             VStack {
                 HStack {
                     Spacer()
