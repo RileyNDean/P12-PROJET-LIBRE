@@ -27,7 +27,6 @@ struct CategoryPickerView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
-                        // Search bar
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundStyle(Color.themeSecondary.opacity(0.4))
@@ -43,7 +42,6 @@ struct CategoryPickerView: View {
                         )
                         .padding(.horizontal)
 
-                        // Sections
                         ForEach(filteredSections) { section in
                             VStack(alignment: .leading, spacing: 12) {
                                 Text(section.title)

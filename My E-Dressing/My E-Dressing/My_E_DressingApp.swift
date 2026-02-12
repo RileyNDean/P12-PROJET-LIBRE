@@ -9,7 +9,6 @@ import SwiftUI
 import CoreData
 
 /// Application entry point.
-/// Injects the Core Data `viewContext` into the SwiftUI environment.
 @main
 struct My_E_DressingApp: App {
     let persistenceController = PersistenceController.shared

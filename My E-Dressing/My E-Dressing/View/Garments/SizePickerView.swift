@@ -48,7 +48,6 @@ struct SizePickerView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        // Search bar
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundStyle(Color.themeSecondary.opacity(0.4))
@@ -68,7 +67,6 @@ struct SizePickerView: View {
                         .cornerRadius(12)
                         .padding(.horizontal)
 
-                        // Sections
                         ForEach(filteredSections) { section in
                             VStack(alignment: .leading, spacing: 10) {
                                 Text(String(localized: String.LocalizationValue(section.titleKey)))
@@ -88,7 +86,6 @@ struct SizePickerView: View {
                                         }
                                     }
 
-                                    // "+" button to add custom size
                                     AddSizeButton {
                                         addingSectionId = section.id
                                         newSizeText = ""
@@ -165,7 +162,7 @@ struct SizePickerView: View {
         }
     }
 
-    /// Persists the custom size and refreshes the view.
+    /// Saves a custom size to the section.
     private func saveCustomSize(for sectionId: String) {
         let trimmed = newSizeText.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }

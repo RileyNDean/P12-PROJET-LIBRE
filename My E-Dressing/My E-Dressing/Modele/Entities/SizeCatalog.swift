@@ -123,10 +123,9 @@ enum SizeCatalog {
         sections.flatMap(\.sizes)
     }
 
-    /// Find a size by its id.
+    /// Finds a size by its ID.
     static func find(by id: String?) -> SizeOption? {
         guard let id, !id.isEmpty else { return nil }
-        // Check built-in sizes first
         if let found = allSizes.first(where: { $0.id == id }) {
             return found
         }
@@ -136,13 +135,12 @@ enum SizeCatalog {
 
     // MARK: - Custom Size Persistence
 
-    /// Saves a custom size to a given section.
+    /// Adds a custom size to a section.
     static func addCustomSize(_ value: String, toSection sectionId: String) {
         var custom = loadCustomSizes()
         var list = custom[sectionId] ?? []
         let trimmed = value.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
-        // Avoid duplicates
         guard !list.contains(where: { $0.id == trimmed }) else { return }
         // Also skip if already exists as built-in
         let allBuiltIn = letterSizes + euSizes + shoeSizes + jeansSizes + uniqueSize
@@ -152,7 +150,7 @@ enum SizeCatalog {
         saveCustomSizes(custom)
     }
 
-    /// Loads custom sizes from UserDefaults, grouped by section ID.
+    /// Loads custom sizes from UserDefaults.
     private static func loadCustomSizes() -> [String: [SizeOption]] {
         guard let data = UserDefaults.standard.dictionary(forKey: customSizesKey) as? [String: [String]] else {
             return [:]
@@ -160,7 +158,7 @@ enum SizeCatalog {
         return data.mapValues { ids in ids.map { SizeOption(id: $0, display: $0) } }
     }
 
-    /// Saves custom sizes to UserDefaults.
+    /// Persists custom sizes to UserDefaults.
     private static func saveCustomSizes(_ sizes: [String: [SizeOption]]) {
         let data = sizes.mapValues { options in options.map(\.id) }
         UserDefaults.standard.set(data, forKey: customSizesKey)
