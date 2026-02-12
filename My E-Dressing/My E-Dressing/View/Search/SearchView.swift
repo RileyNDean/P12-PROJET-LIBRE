@@ -19,6 +19,8 @@ struct SearchView: View {
     @State private var searchText: String = ""
     @State private var expandedGarmentId: UUID? = nil
     @State private var editingGarment: Garment?
+    @State private var garmentToDelete: Garment?
+    @State private var showDeleteAlert = false
 
     private let searchController = SearchController()
 
@@ -98,7 +100,11 @@ struct SearchView: View {
                                     ModernGarmentRow(
                                         garment: garment,
                                         expandedGarmentId: $expandedGarmentId,
-                                        onEdit: { editingGarment = garment }
+                                        onEdit: { editingGarment = garment },
+                                        onDelete: {
+                                            garmentToDelete = garment
+                                            showDeleteAlert = true
+                                        }
                                     )
                                 }
 
@@ -119,7 +125,35 @@ struct SearchView: View {
             .sheet(item: $editingGarment) { garment in
                 GarmentFormView(editingGarment: garment)
             }
+            .overlay {
+                if showDeleteAlert {
+                    DeleteConfirmationDialog(
+                        message: String(localized: "confirm_delete_item"),
+                        onConfirm: {
+                            if let garment = garmentToDelete {
+                                deleteGarment(garment)
+                            }
+                            showDeleteAlert = false
+                        },
+                        onCancel: {
+                            garmentToDelete = nil
+                            showDeleteAlert = false
+                        }
+                    )
+                }
+            }
         }
     }
 
+    /// Deletes a garment and its associated photos.
+    private func deleteGarment(_ garment: Garment) {
+        let controller = GarmentController(managedObjectContext: viewContext)
+        do {
+            try controller.delete(garment)
+        } catch {
+            // Deletion failed silently
+        }
+        garmentToDelete = nil
+        expandedGarmentId = nil
+    }
 }
