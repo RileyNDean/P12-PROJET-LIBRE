@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Supported application languages. The user can pick system default, English or French.
 enum AppLanguage: String, CaseIterable, Identifiable {
     case system
     case en

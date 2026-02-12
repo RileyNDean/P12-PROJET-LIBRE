@@ -12,6 +12,7 @@ struct ImagePickerMulti: UIViewControllerRepresentable {
     var imagesHandler: (([PhotoItem]) -> Void)?
     @Binding var images: [UIImage]
 
+    /// Creates and configures the PHPickerViewController.
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration(photoLibrary: .shared())
         config.filter = .images
@@ -21,14 +22,18 @@ struct ImagePickerMulti: UIViewControllerRepresentable {
         return picker
     }
 
+    /// No-op required by the protocol.
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
 
+    /// Creates the coordinator that handles picker delegation.
     func makeCoordinator() -> Coordinator { Coordinator(self) }
 
+    /// Coordinator bridging PHPickerViewControllerDelegate to SwiftUI.
     final class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: ImagePickerMulti
         init(_ parent: ImagePickerMulti) { self.parent = parent }
 
+        /// Called when the user finishes picking photos.
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             picker.dismiss(animated: true)
             let providers = results.map { $0.itemProvider }.filter { $0.canLoadObject(ofClass: UIImage.self) }

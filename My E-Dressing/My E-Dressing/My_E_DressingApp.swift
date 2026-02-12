@@ -9,10 +9,11 @@ import SwiftUI
 import CoreData
 
 /// Application entry point.
-/// Injects the Core Data `viewContext` and the `LanguageController` into the SwiftUI environment.
+/// Injects the Core Data `viewContext` into the SwiftUI environment.
 @main
 struct My_E_DressingApp: App {
     let persistenceController = PersistenceController.shared
+
     var body: some Scene {
         WindowGroup {
             MainTabView()

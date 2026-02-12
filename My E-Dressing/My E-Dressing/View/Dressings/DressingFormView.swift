@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 
+/// Simple form for creating or renaming a dressing.
 struct DressingFormView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var managedObjectContext
@@ -34,6 +35,7 @@ struct DressingFormView: View {
         .onAppear { if let dressing = editingDressing { nameText = dressing.name ?? "" } }
     }
 
+    /// Validates and persists the dressing, then dismisses.
     private func save() {
         do {
             let dressingController = DressingController(managedObjectContext: managedObjectContext)

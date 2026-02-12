@@ -9,13 +9,9 @@ import SwiftUI
 
 // MARK: - Theme Colors ("Organic & Classy" palette)
 extension Color {
-    /// Soft cream background
     static let themeBackground = Color(hex: "FAFAF5")
-    /// Burnt orange / Terracotta for primary actions
     static let themePrimary = Color(hex: "D96C45")
-    /// Deep forest green for text and structure
     static let themeSecondary = Color(hex: "2F4842")
-    /// Sage green accent
     static let themeAccent = Color(hex: "8F9E91")
 
     /// Creates a `Color` from a hexadecimal string (supports RGB, RRGGBB, AARRGGBB).
@@ -44,7 +40,60 @@ extension Color {
     }
 }
 
+// MARK: - Typography
+
+extension Font {
+    // -- Serif (elegant headings) --
+
+    static let serifLargeTitle = Font.custom("Georgia-Bold", size: 28)
+    static let serifTitle = Font.custom("Georgia-Bold", size: 22)
+    static let serifTitle3 = Font.custom("Georgia-Bold", size: 18)
+    static let serifHeadline = Font.custom("Georgia", size: 16)
+
+    // -- Sans-serif (readable body text) --
+
+    static let sansBody = Font.system(size: 16, weight: .regular)
+    static let sansBodyMedium = Font.system(size: 16, weight: .medium)
+    static let sansSubheadline = Font.system(size: 14, weight: .regular)
+    static let sansHeadline = Font.system(size: 15, weight: .semibold)
+    static let sansCaption = Font.system(size: 12, weight: .regular)
+    static let sansCaption2 = Font.system(size: 11, weight: .regular)
+    static let sansFootnote = Font.system(size: 13, weight: .regular)
+}
+
+// MARK: - Dressing Customization
+
+/// Available SF Symbol icons for dressing personalization.
+enum DressingIcon {
+    static let all: [String] = [
+        "cabinet.fill", "tshirt.fill", "shoe.fill",
+        "bag.fill", "handbag.fill", "backpack.fill",
+        "hanger", "eyeglasses", "figure.stand",
+        "hat.widebrim.fill", "shoeprints.fill", "figure.stand.dress",
+        "figure.child", "heart.fill", "dog.fill",
+        "sparkles"
+    ]
+    static let defaultIcon = "cabinet.fill"
+}
+
+/// Available pastel colors (hex) for dressing personalization.
+enum DressingColor {
+    static let all: [(hex: String, name: String)] = [
+        ("D96C45", "Terracotta"),
+        ("E8A87C", "Peach"),
+        ("D4A373", "Sand"),
+        ("A7C4A0", "Sage"),
+        ("8FBCBB", "Mint"),
+        ("94B4C1", "Sky"),
+        ("B4A7D6", "Lavender"),
+        ("D4A5A5", "Rose"),
+        ("C9B458", "Gold")
+    ]
+    static let defaultHex = "D96C45"
+}
+
 // MARK: - Card Style Modifier
+/// Reusable card-style modifier applying white background, rounded corners and shadow.
 struct CardStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -59,6 +108,7 @@ struct CardStyle: ViewModifier {
 }
 
 // MARK: - Modern Text Field
+/// A styled text field with a title label above it.
 struct ModernTextField: View {
     let title: String
     @Binding var text: String
@@ -66,7 +116,7 @@ struct ModernTextField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.caption)
+                .font(.sansCaption)
                 .foregroundStyle(Color.themeSecondary)
                 .padding(.leading, 4)
             
