@@ -13,12 +13,14 @@ final class GarmentController {
 
     private let managedObjectContext: NSManagedObjectContext
 
+    /// Creates a new controller bound to the given context.
     init(managedObjectContext: NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
     }
 
     // MARK: - Create
 
+    /// Creates a new garment with photos inside the given dressing.
     func create(
         in dressing: Dressing,
         title: String,
@@ -54,6 +56,7 @@ final class GarmentController {
 
     // MARK: - Update
 
+    /// Updates the metadata of an existing garment (no photo changes).
     func update(
         _ garment: Garment,
         title: String,
@@ -80,6 +83,7 @@ final class GarmentController {
 
     // MARK: - Photo Operations
 
+    /// Appends new photos to the garment and persists them to disk.
     func addPhotos(_ images: [UIImage], to garment: Garment) throws -> [GarmentPhoto] {
         let startIndex = garment.photoSet.count
         let createdPhotos = try attachPhotos(images, to: garment, startingAt: startIndex)
@@ -104,11 +108,13 @@ final class GarmentController {
 
     // MARK: - Status / Wear Count / Delete
 
+    /// Updates the status of the given garment.
     func changeStatus(_ garment: Garment, to newStatus: GarmentStatus) throws {
         garment.statusRaw = newStatus.rawValue
         try managedObjectContext.save()
     }
 
+    /// Increments the wear count of the given garment by one.
     func incrementWearCount(_ garment: Garment) throws {
         let currentWearCount = garment.value(forKey: "wearCount") as? Int32 ?? 0
         garment.setValue(currentWearCount + 1, forKey: "wearCount")
@@ -123,6 +129,7 @@ final class GarmentController {
         imagePaths.forEach { MediaStore.shared.delete(at: $0) }
     }
 
+    /// Checks that the garment still has at least one photo; throws otherwise.
     func validateHasAtLeastOnePhoto(_ garment: Garment) throws {
         if garment.photoSet.isEmpty {
             throw ValidationError(message: String(localized: "photo_required"))
@@ -131,6 +138,7 @@ final class GarmentController {
 
     // MARK: - Private
 
+    /// Saves images to disk and creates the corresponding GarmentPhoto entities.
     private func attachPhotos(_ images: [UIImage], to garment: Garment, startingAt startingIndex: Int) throws -> [GarmentPhoto] {
         var createdPhotos: [GarmentPhoto] = []
         for (offset, image) in images.enumerated() {

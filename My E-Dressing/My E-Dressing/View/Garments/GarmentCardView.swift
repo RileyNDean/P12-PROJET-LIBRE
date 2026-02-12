@@ -8,6 +8,7 @@ import SwiftUI
 import UIKit
 import CoreData
 
+/// Expandable card view for a garment using horizontal/grid photo layout.
 struct GarmentCardView: View {
     let garment: Garment
     let onEdit: () -> Void
@@ -17,9 +18,7 @@ struct GarmentCardView: View {
     @State private var viewerIndex = 0
 
     private var images: [UIImage] {
-        garment.orderedPhotos
-            .compactMap { $0.path }
-            .compactMap { MediaStore.shared.loadImage(at: $0) }
+        garment.allLoadedImages.map(\.image)
     }
 
     var body: some View {
@@ -38,17 +37,17 @@ struct GarmentCardView: View {
             }
 
             HStack {
-                Text(garment.title ?? "").font(.headline)
+                Text(garment.title ?? "").font(.serifHeadline)
                 Spacer()
                 if let wear = garment.value(forKey: "wearCount") as? Int32, wear > 0 {
                     Label("×\(wear)", systemImage: "tshirt")
-                        .font(.caption).padding(6)
+                        .font(.sansCaption).padding(6)
                         .background(Color.gray.opacity(0.15)).cornerRadius(8)
                 }
             }
 
             Text(GarmentStatus(rawValue: garment.statusRaw)?.label ?? "")
-                .font(.subheadline).foregroundStyle(.secondary)
+                .font(.sansSubheadline).foregroundStyle(.secondary)
 
             if isExpanded {
                 VStack(alignment: .leading, spacing: 6) {
@@ -57,7 +56,7 @@ struct GarmentCardView: View {
                     infoRow(String(localized: "size_placeholder"), garment.size)
                     infoRow(String(localized: "category_placeholder"), garment.category)
                     if let notes = garment.notes, !notes.isEmpty {
-                        Text(notes).font(.footnote).foregroundStyle(.secondary).padding(.top, 4)
+                        Text(notes).font(.sansFootnote).foregroundStyle(.secondary).padding(.top, 4)
                     }
                 }
             }
@@ -74,17 +73,19 @@ struct GarmentCardView: View {
 
     // MARK: - Helpers
 
+    /// Renders a key-value info row.
     private func infoRow(_ label: String, _ value: String?) -> some View {
         HStack {
-            Text(label).font(.caption).foregroundStyle(.secondary)
+            Text(label).font(.sansCaption).foregroundStyle(.secondary)
             Spacer()
-            Text(value?.isEmpty == false ? value! : "—").font(.caption)
+            Text(value?.isEmpty == false ? value! : "—").font(.sansCaption)
         }
     }
 }
 
 // MARK: - Private Components
 
+/// Square thumbnail image used in the photo strip and grid.
 private struct PhotoThumb: View {
     let image: UIImage
     var body: some View {
@@ -97,6 +98,7 @@ private struct PhotoThumb: View {
     }
 }
 
+/// Horizontally scrollable strip of photo thumbnails.
 private struct HorizontalPhotoStrip: View {
     let images: [UIImage]
     let onTap: (Int) -> Void
@@ -115,6 +117,7 @@ private struct HorizontalPhotoStrip: View {
     }
 }
 
+/// Adaptive grid layout for photos in expanded mode.
 private struct PhotoGrid: View {
     let images: [UIImage]
     let onTap: (Int) -> Void
@@ -132,6 +135,7 @@ private struct PhotoGrid: View {
     }
 }
 
+/// Paged fullscreen photo viewer with swipe navigation.
 private struct PhotoFullScreenViewer: View {
     let images: [UIImage]
     @Binding var startIndex: Int

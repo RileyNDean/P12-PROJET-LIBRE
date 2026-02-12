@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 import UIKit
 
+/// Form view for creating or editing a garment, including photos, metadata and status.
 struct ModernGarmentFormView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
@@ -75,7 +76,7 @@ struct ModernGarmentFormView: View {
     var photoSection: some View {
         VStack(alignment: .leading) {
             Text(String(localized: "photos_title"))
-                .font(.caption)
+                .font(.sansCaption)
                 .bold()
                 .foregroundStyle(Color.themeSecondary)
             
@@ -84,10 +85,10 @@ struct ModernGarmentFormView: View {
                     Button { isShowingPicker = true } label: {
                         VStack {
                             Image(systemName: "camera.fill")
-                                .font(.title2)
+                                .font(.serifTitle3)
                                 .foregroundStyle(Color.themePrimary)
                             Text(String(localized: "add_title"))
-                                .font(.caption)
+                                .font(.sansCaption)
                                 .foregroundStyle(Color.themePrimary)
                         }
                         .frame(width: 80, height: 100)
@@ -126,7 +127,7 @@ struct ModernGarmentFormView: View {
     var detailsSection: some View {
         VStack(alignment: .leading) {
             Text(String(localized: "details_title"))
-                .font(.caption)
+                .font(.sansCaption)
                 .bold()
                 .foregroundStyle(Color.themeSecondary)
             
@@ -172,6 +173,7 @@ struct ModernGarmentFormView: View {
         .disabled(titleText.isEmpty)
     }
 
+    /// Extracts the displayable thumbnail image from a photo item.
     func thumbnail(for item: PhotoItem) -> UIImage {
         switch item {
         case .existing(_, let t):
@@ -181,6 +183,7 @@ struct ModernGarmentFormView: View {
         }
     }
     
+    /// Populates the form fields from the existing garment when editing.
     func loadData() {
         if let g = editingGarment {
             titleText = g.title ?? ""
@@ -191,16 +194,14 @@ struct ModernGarmentFormView: View {
             notesText = g.notes ?? ""
             wearCount = g.wearCount
             statusValue = GarmentStatus(rawValue: g.statusRaw) ?? .kept
-            workingPhotoItems = g.orderedPhotos.compactMap { p in
-                if let path = p.path,
-                   let img = MediaStore.shared.loadImage(at: path) {
-                    return .existing(photoObject: p, thumbnail: img)
-                }
-                return nil
+            workingPhotoItems = g.allLoadedImages.compactMap { item in
+                guard let photo = g.orderedPhotos.first(where: { $0.id == item.id }) else { return nil }
+                return .existing(photoObject: photo, thumbnail: item.image)
             }
         }
     }
     
+    /// Persists the garment (creates or updates) and dismisses the form.
     func save() {
         let controller = GarmentController(managedObjectContext: viewContext)
         do {
