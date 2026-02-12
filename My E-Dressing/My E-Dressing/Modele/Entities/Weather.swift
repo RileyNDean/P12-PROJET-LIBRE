@@ -20,7 +20,7 @@ struct WeatherData {
 /// Maps OpenWeatherMap condition codes to SF Symbols.
 enum WeatherIconMapper {
 
-    /// Returns an SF Symbol name for the given OpenWeatherMap condition code.
+    /// Returns an SF Symbol for a weather condition code.
     static func sfSymbol(for conditionCode: Int) -> String {
         switch conditionCode {
         case 200...232: return "cloud.bolt.rain.fill"

@@ -179,7 +179,7 @@ enum GarmentCategoryCatalog {
 
     // MARK: - Lookup
 
-    /// Find a category by its stored identifier.
+    /// Finds a category by its ID.
     static func find(by id: String?) -> GarmentCategory? {
         guard let id else { return nil }
         return all.first { $0.id == id }

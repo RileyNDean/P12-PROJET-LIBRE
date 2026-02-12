@@ -35,7 +35,7 @@ struct DressingFormView: View {
         .onAppear { if let dressing = editingDressing { nameText = dressing.name ?? "" } }
     }
 
-    /// Validates and persists the dressing, then dismisses.
+    /// Saves the dressing and dismisses.
     private func save() {
         do {
             let dressingController = DressingController(managedObjectContext: managedObjectContext)

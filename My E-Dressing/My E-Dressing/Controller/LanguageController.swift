@@ -14,7 +14,7 @@ final class LanguageController: ObservableObject {
     private let key = "appLanguage"
     private let defaults: UserDefaults
 
-    /// Initializes the controller, restoring the last saved language selection.
+    /// Restores the saved language on init.
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         if let raw = defaults.string(forKey: key), let lang = AppLanguage(rawValue: raw) {
@@ -26,7 +26,7 @@ final class LanguageController: ObservableObject {
         selected.locale ?? Locale.current
     }
 
-    /// Updates the selected language and persists the choice.
+    /// Changes and persists the selected language.
     func setLanguage(_ lang: AppLanguage) {
         selected = lang
         defaults.set(lang.rawValue, forKey: key)

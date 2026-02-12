@@ -30,7 +30,9 @@ struct PersistenceController {
         container = NSPersistentContainer(name: "My_E_Dressing")
 
         if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            let description = NSPersistentStoreDescription()
+            description.url = URL(fileURLWithPath: "/dev/null")
+            container.persistentStoreDescriptions = [description]
         }
 
         container.loadPersistentStores { _, error in

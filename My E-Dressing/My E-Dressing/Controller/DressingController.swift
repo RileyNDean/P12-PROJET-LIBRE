@@ -10,14 +10,13 @@ final class DressingController {
 
     private let managedObjectContext: NSManagedObjectContext
 
-    /// Creates a new controller bound to the given context.
     init(managedObjectContext: NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
     }
 
     // MARK: - Create
 
-    /// Creates a new dressing with the given name, icon and color.
+    /// Creates and saves a new dressing.
     @discardableResult
     func create(name: String, iconName: String = "cabinet.fill", colorHex: String = "D96C45") throws -> Dressing {
         let validatedName = try Validation.nonEmpty(name, fieldName: String(localized: "name"))
@@ -41,21 +40,21 @@ final class DressingController {
 
     // MARK: - Read
 
-    /// Fetches all dressings sorted by creation date.
+    /// Fetches all dressings sorted by date.
     func fetchAll() throws -> [Dressing] {
         let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Dressing.createdAt, ascending: true)]
         return try managedObjectContext.fetch(request)
     }
 
-    /// Returns the first dressing, or nil if none exists.
+    /// Returns the first dressing, or nil.
     func first() throws -> Dressing? {
         let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
         request.fetchLimit = 1
         return try managedObjectContext.fetch(request).first
     }
 
-    /// Finds a dressing by its UUID.
+    /// Finds a dressing by UUID.
     func find(by identifier: UUID) throws -> Dressing? {
         let request: NSFetchRequest<Dressing> = Dressing.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", identifier as CVarArg)
@@ -65,13 +64,13 @@ final class DressingController {
 
     // MARK: - Update
 
-    /// Renames the given dressing.
+    /// Renames a dressing.
     func rename(_ dressing: Dressing, to newName: String) throws {
         dressing.name = try Validation.nonEmpty(newName, fieldName: String(localized: "name"))
         try managedObjectContext.save()
     }
 
-    /// Updates the name, icon and color of the given dressing.
+    /// Updates name, icon and color.
     func update(_ dressing: Dressing, name: String, iconName: String, colorHex: String) throws {
         dressing.name = try Validation.nonEmpty(name, fieldName: String(localized: "name"))
         dressing.iconName = iconName

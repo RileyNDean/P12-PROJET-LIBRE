@@ -138,7 +138,7 @@ struct ModernDressingFormView: View {
         }
     }
 
-    /// Validates and persists the dressing via DressingController, then dismisses.
+    /// Saves the dressing and dismisses.
     func save() {
         let controller = DressingController(managedObjectContext: viewContext)
         do {

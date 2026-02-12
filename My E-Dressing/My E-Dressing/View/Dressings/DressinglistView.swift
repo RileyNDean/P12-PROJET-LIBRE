@@ -101,7 +101,7 @@ struct DressingListView: View {
         ) { showNewDressing = true }
     }
     
-    /// Permanently deletes the given dressing from Core Data.
+    /// Deletes a dressing from Core Data.
     private func performDelete(_ dressing: Dressing) {
         context.delete(dressing)
         do { try context.save() } catch {
