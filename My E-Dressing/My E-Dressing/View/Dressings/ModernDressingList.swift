@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 
+/// Main list screen showing all user dressings with add/edit/delete capabilities.
 struct ModernDressingList: View {
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Dressing.createdAt, ascending: true)])
@@ -53,14 +54,27 @@ struct ModernDressingList: View {
                 }
                 .listStyle(.plain)
             }
-            .navigationTitle(String(localized: "my_dressings"))
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button { showNewDressing = true } label: {
-                        Image(systemName: "plus")
-                            .foregroundStyle(Color.themePrimary)
-                    }
+                ToolbarItem(placement: .principal) {
+                    Text(String(localized: "my_dressings"))
+                        .font(.serifTitle3)
+                        .foregroundStyle(Color.themeSecondary)
                 }
+            }
+            .overlay(alignment: .bottomTrailing) {
+                Button { showNewDressing = true } label: {
+                    Image(systemName: "plus")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.themePrimary)
+                        .frame(width: 56, height: 56)
+                        .background(Color.themeSecondary)
+                        .clipShape(Circle())
+                        .shadow(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 4)
+                }
+                .padding(.trailing, 24)
+                .padding(.bottom, 100)
             }
             .overlay {
                 if showNewDressing || dressingToEdit != nil {
@@ -88,27 +102,32 @@ struct ModernDressingList: View {
     }
 }
 
+/// A card row displaying a dressing's icon, name and garment count.
 struct DressingRowCard: View {
     @ObservedObject var dressing: Dressing
-    
+
+    private var dressingColor: Color {
+        Color(hex: dressing.colorHex ?? DressingColor.defaultHex)
+    }
+
     var body: some View {
         HStack(spacing: 16) {
             ZStack {
-                Color.themeSecondary.opacity(0.1)
-                Image(systemName: "cabinet")
+                dressingColor.opacity(0.15)
+                Image(systemName: dressing.iconName ?? DressingIcon.defaultIcon)
                     .font(.largeTitle)
-                    .foregroundStyle(Color.themeSecondary)
+                    .foregroundStyle(dressingColor)
             }
             .frame(width: 80, height: 80)
             .cornerRadius(12)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(dressing.name ?? String(localized: "dressing"))
-                    .font(.headline)
+                    .font(.serifHeadline)
                     .foregroundStyle(Color.themeSecondary)
 
                 Text(String(format: String(localized: "garments_count"), dressing.garments?.count ?? 0))
-                    .font(.subheadline)
+                    .font(.sansSubheadline)
                     .foregroundStyle(.secondary)
             }
             
