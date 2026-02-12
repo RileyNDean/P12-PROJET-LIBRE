@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// A circular floating action button with an icon and a label below it.
 struct FloatingPrimaryButton: View {
     let systemImage: String
     let title: String
@@ -31,6 +32,7 @@ struct FloatingPrimaryButton: View {
 }
 
 extension View {
+    /// Convenience View modifier that overlays a centered floating button at the bottom.
     func floatingButtonCentered(title: String, systemImage: String, action: @escaping () -> Void) -> some View {
         overlay(
             VStack {

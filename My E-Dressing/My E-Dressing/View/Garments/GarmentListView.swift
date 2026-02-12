@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 import UIKit
 
+/// Legacy garment list using the standard List style with swipe actions.
 struct GarmentListView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
     @ObservedObject var dressing: Dressing
@@ -100,14 +101,17 @@ struct GarmentListView: View {
     }
 
     // Actions
+    /// Updates the status of a garment via the controller.
     private func changeStatus(_ garment: Garment, to newStatus: GarmentStatus) {
         do { try GarmentController(managedObjectContext: managedObjectContext).changeStatus(garment, to: newStatus) }
         catch { alertMessage = String(localized: "unexpected_error"); isShowingAlert = true }
     }
+    /// Increments the wear count of a garment via the controller.
     private func incrementWearCount(_ garment: Garment) {
         do { try GarmentController(managedObjectContext: managedObjectContext).incrementWearCount(garment) }
         catch { alertMessage = String(localized: "unexpected_error"); isShowingAlert = true }
     }
+    /// Deletes the given garments via the controller.
     private func deleteGarments(_ garments: [Garment]) {
         do {
             let controller = GarmentController(managedObjectContext: managedObjectContext)

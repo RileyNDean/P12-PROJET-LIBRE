@@ -25,6 +25,7 @@ struct PersistenceController {
 
     let container: NSPersistentContainer
 
+    /// Initializes the Core Data stack. Pass `inMemory: true` for unit tests or previews.
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "My_E_Dressing")
 

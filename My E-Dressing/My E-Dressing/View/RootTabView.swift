@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Legacy root tab view with dressing and add-garment tabs.
 struct RootTabView: View {
     var body: some View {
         TabView {

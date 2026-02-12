@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Screen allowing the user to choose the application language.
 struct LanguageSettingsView: View {
     @AppStorage("appLanguage") private var appLang: String = AppLanguage.system.rawValue
 
