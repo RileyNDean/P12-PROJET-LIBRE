@@ -80,11 +80,179 @@ sort_by_date = "Sort by date";
 sort_by_brand = "Sort by brand";
 
 // MARK: - Tabs
-tab_home = "Home";
+tab_dressing = "Dressing";
 tab_search = "Search";
 tab_calendar = "Calendar";
 tab_day = "Day";
 tab_profile = "Profile";
+
+// MARK: - Category Picker
+category_select = "Choose a category";
+category_search = "Search a category";
+category_clear = "Clear";
+
+// MARK: - Category Sections
+section_tops = "Tops";
+section_knits = "Knitwear & Sweats";
+section_bottoms = "Bottoms";
+section_dresses = "Dresses & Jumpsuits";
+section_outerwear = "Outerwear";
+section_underwear = "Underwear & Nightwear";
+section_sport = "Sportswear";
+section_swimwear = "Swimwear";
+section_kids = "Kids & Baby";
+section_shoes = "Shoes";
+section_accessories = "Accessories";
+
+// MARK: - Categories — Tops
+category_tshirt_col_rond = "Crew neck T-shirt";
+category_tshirt_col_v = "V-neck T-shirt";
+category_polo = "Polo";
+category_debardeur = "Tank top";
+category_chemise_manches_longues = "Shirt";
+category_chemisier_col_ouvert = "Blouse";
+category_blouse_lavalliere = "Bow blouse";
+
+// MARK: - Categories — Knitwear & Sweats
+category_pull_col_v = "V-neck sweater";
+category_sweatshirt_col_rond = "Crew neck sweatshirt";
+category_sweatshirt_col_montant = "High-neck sweatshirt";
+category_hoodie = "Hoodie";
+category_cardigan = "Cardigan";
+
+// MARK: - Categories — Bottoms
+category_jean = "Jeans";
+category_pantalon_chino = "Chinos";
+category_short = "Shorts";
+category_jupe = "Skirt";
+category_jupe_longue = "Long skirt";
+category_legging = "Leggings";
+category_jogging = "Joggers";
+
+// MARK: - Categories — Dresses & Jumpsuits
+category_robe_evasee = "Flared dress";
+category_robe_longue = "Long dress";
+category_combinaison = "Jumpsuit";
+category_salopette = "Overalls";
+
+// MARK: - Categories — Outerwear
+category_blazer = "Blazer";
+category_veste_legere = "Light jacket";
+category_blouson_zippe = "Zip jacket";
+category_manteau_croise = "Coat";
+category_costume = "Suit";
+category_gilet_sans_manches = "Gilet";
+
+// MARK: - Categories — Underwear & Nightwear
+category_soutien_gorge = "Bra";
+category_brassiere_sport = "Sports bra";
+category_culotte = "Panties";
+category_boxer = "Boxers";
+category_pyjama = "Pyjamas";
+category_nuisette = "Nightdress";
+category_peignoir = "Bathrobe";
+
+// MARK: - Categories — Sportswear
+category_maillot_sport = "Sports jersey";
+category_short_sport = "Sports shorts";
+category_veste_survetement = "Track jacket";
+
+// MARK: - Categories — Swimwear
+category_bikini = "Bikini";
+category_maillot_1_piece = "One-piece swimsuit";
+
+// MARK: - Categories — Kids & Baby
+category_body_bebe = "Baby bodysuit";
+category_grenouillere = "Sleepsuit";
+category_robe_enfant = "Kids dress";
+category_bonnet_bebe = "Baby hat";
+category_bavoir = "Bib";
+category_chaussettes = "Kids socks";
+category_baskets_enfant = "Kids sneakers";
+category_couverture_bebe = "Baby blanket";
+category_pantalon_bebe = "Baby pants";
+
+// MARK: - Categories — Shoes
+category_sneaker = "Sneakers";
+category_chaussure_de_ville = "Dress shoes";
+category_escarpin = "Heels";
+category_botte = "Boots";
+category_sandale_talon = "Heeled sandals";
+category_pantoufles = "Slippers";
+
+// MARK: - Categories — Accessories
+category_sac_a_main = "Handbag";
+category_sac_a_dos = "Backpack";
+category_portefeuille = "Wallet";
+category_trousse = "Pouch";
+category_foulard_plie = "Scarf";
+category_echarpe = "Winter scarf";
+category_chapeau = "Hat";
+category_casquette = "Cap";
+category_lunettes_de_soleil = "Sunglasses";
+category_gants = "Gloves";
+category_ceinture = "Belt";
+category_cravate = "Tie";
+category_montre = "Watch";
+category_collier = "Necklace";
+category_chaussettes_adulte = "Socks";
+
+// MARK: - Profile / Impact Stats
+profile_title = "My Impact";
+profile_subtitle = "Knowing your wardrobe is the first step towards responsible fashion.";
+profile_actions_title = "Your actions";
+profile_details_title = "Details";
+stat_total = "Garments";
+stat_never_worn = "Never worn";
+stat_to_give = "To donate";
+stat_to_recycle = "To recycle";
+stat_to_sell = "To sell";
+stat_kept = "Kept";
+stat_avg_wear = "Avg. wears";
+stat_categories = "Categories";
+stat_most_worn = "Your favorite ❤️";
+stat_awareness_personal = "%d%% of your wardrobe has never been worn. Time for a clear-out?";
+
+// MARK: - Daily Tips
+tip_footer = "A new thought every day";
+tip_footer_weather = "A new thought every day, along with the weather";
+tip_1 = "Did you know that 70%% of clothes in a wardrobe are never worn?";
+tip_2 = "The textile industry is the 2nd most polluting in the world, right after oil.";
+tip_3 = "A single pair of jeans requires about 7,500 liters of water to produce.";
+tip_4 = "Donating a garment instead of throwing it away gives it a second life.";
+tip_5 = "Buying less but better is the secret to a responsible wardrobe.";
+tip_6 = "Every year, 4 million tonnes of textiles are thrown away in Europe.";
+tip_7 = "A garment worn 50 times has 3 times less impact than one worn 10 times.";
+tip_8 = "Before buying, ask yourself: will I wear this at least 30 times?";
+tip_9 = "Recycling one kilo of clothes saves 6,000 liters of water.";
+tip_10 = "Sustainable fashion starts in your closet.";
+tip_11 = "Repairing a damaged garment costs less than buying a new one.";
+tip_12 = "A cotton T-shirt travels an average of 40,000 km before reaching your wardrobe.";
+tip_13 = "Knowing what you own is already consuming less.";
+tip_14 = "In France, people buy an average of 9.2 kg of clothing per person per year.";
+tip_15 = "Clothes made from natural fibers are easier to recycle.";
+tip_16 = "Swapping clothes with friends is free and eco-friendly.";
+tip_17 = "A well-organized closet reduces impulse purchases by 30%%.";
+tip_18 = "Fast fashion produces 10%% of global CO₂ emissions.";
+tip_19 = "Wearing what you already own is the most ecological gesture there is.";
+tip_20 = "Every donated garment can help someone in need.";
+
+// MARK: - Size Picker
+size_picker_title = "Size";
+size_search = "Search a size...";
+size_section_letter = "Letter sizes";
+size_section_eu = "EU sizes";
+size_section_shoes = "Shoes";
+size_section_jeans = "Jeans";
+size_section_unique = "One size";
+size_section_custom = "My sizes";
+size_custom_placeholder = "E.g.: 41.5, XXS/S...";
+
+// MARK: - Search
+search_placeholder = "Search for a garment...";
+search_hint = "Search by name, brand, color, size, category or status";
+search_no_results = "No garments found";
+search_results_count = "%d result(s)";
 
 // MARK: - App
 app_title = "My E‑Dressing";

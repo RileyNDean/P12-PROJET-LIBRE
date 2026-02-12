@@ -80,11 +80,179 @@ sort_by_date = "Trier par date";
 sort_by_brand = "Trier par marque";
 
 // MARK: - Tabs
-tab_home = "Accueil";
+tab_dressing = "Dressing";
 tab_search = "Recherche";
 tab_calendar = "Calendrier";
 tab_day = "Jour";
 tab_profile = "Profil";
+
+// MARK: - Category Picker
+category_select = "Choisir une catégorie";
+category_search = "Rechercher une catégorie";
+category_clear = "Retirer";
+
+// MARK: - Category Sections
+section_tops = "Hauts";
+section_knits = "Pulls & Sweats";
+section_bottoms = "Bas";
+section_dresses = "Robes & Combinaisons";
+section_outerwear = "Vestes & Manteaux";
+section_underwear = "Sous-vêtements & Nuit";
+section_sport = "Sport";
+section_swimwear = "Maillots de bain";
+section_kids = "Enfant & Bébé";
+section_shoes = "Chaussures";
+section_accessories = "Accessoires";
+
+// MARK: - Categories — Hauts
+category_tshirt_col_rond = "T-shirt col rond";
+category_tshirt_col_v = "T-shirt col V";
+category_polo = "Polo";
+category_debardeur = "Débardeur";
+category_chemise_manches_longues = "Chemise";
+category_chemisier_col_ouvert = "Chemisier";
+category_blouse_lavalliere = "Blouse lavallière";
+
+// MARK: - Categories — Pulls & Sweats
+category_pull_col_v = "Pull col V";
+category_sweatshirt_col_rond = "Sweatshirt col rond";
+category_sweatshirt_col_montant = "Sweatshirt col montant";
+category_hoodie = "Hoodie";
+category_cardigan = "Cardigan";
+
+// MARK: - Categories — Bas
+category_jean = "Jean";
+category_pantalon_chino = "Pantalon chino";
+category_short = "Short";
+category_jupe = "Jupe";
+category_jupe_longue = "Jupe longue";
+category_legging = "Legging";
+category_jogging = "Jogging";
+
+// MARK: - Categories — Robes & Combinaisons
+category_robe_evasee = "Robe évasée";
+category_robe_longue = "Robe longue";
+category_combinaison = "Combinaison";
+category_salopette = "Salopette";
+
+// MARK: - Categories — Vestes & Manteaux
+category_blazer = "Blazer";
+category_veste_legere = "Veste légère";
+category_blouson_zippe = "Blouson zippé";
+category_manteau_croise = "Manteau croisé";
+category_costume = "Costume";
+category_gilet_sans_manches = "Gilet sans manches";
+
+// MARK: - Categories — Sous-vêtements & Nuit
+category_soutien_gorge = "Soutien-gorge";
+category_brassiere_sport = "Brassière sport";
+category_culotte = "Culotte";
+category_boxer = "Boxer";
+category_pyjama = "Pyjama";
+category_nuisette = "Nuisette";
+category_peignoir = "Peignoir";
+
+// MARK: - Categories — Sport
+category_maillot_sport = "Maillot de sport";
+category_short_sport = "Short de sport";
+category_veste_survetement = "Veste de survêtement";
+
+// MARK: - Categories — Maillots de bain
+category_bikini = "Bikini";
+category_maillot_1_piece = "Maillot 1 pièce";
+
+// MARK: - Categories — Enfant & Bébé
+category_body_bebe = "Body bébé";
+category_grenouillere = "Grenouillère";
+category_robe_enfant = "Robe enfant";
+category_bonnet_bebe = "Bonnet bébé";
+category_bavoir = "Bavoir";
+category_chaussettes = "Chaussettes enfant";
+category_baskets_enfant = "Baskets enfant";
+category_couverture_bebe = "Couverture bébé";
+category_pantalon_bebe = "Pantalon bébé";
+
+// MARK: - Categories — Chaussures
+category_sneaker = "Sneaker";
+category_chaussure_de_ville = "Chaussure de ville";
+category_escarpin = "Escarpin";
+category_botte = "Botte";
+category_sandale_talon = "Sandale à talon";
+category_pantoufles = "Pantoufles";
+
+// MARK: - Categories — Accessoires
+category_sac_a_main = "Sac à main";
+category_sac_a_dos = "Sac à dos";
+category_portefeuille = "Portefeuille";
+category_trousse = "Trousse";
+category_foulard_plie = "Foulard";
+category_echarpe = "Écharpe";
+category_chapeau = "Chapeau";
+category_casquette = "Casquette";
+category_lunettes_de_soleil = "Lunettes de soleil";
+category_gants = "Gants";
+category_ceinture = "Ceinture";
+category_cravate = "Cravate";
+category_montre = "Montre";
+category_collier = "Collier";
+category_chaussettes_adulte = "Chaussettes";
+
+// MARK: - Profile / Impact Stats
+profile_title = "Mon Impact";
+profile_subtitle = "Prendre conscience de sa garde-robe, c'est le premier pas vers une mode responsable.";
+profile_actions_title = "Tes actions";
+profile_details_title = "En détail";
+stat_total = "Vêtements";
+stat_never_worn = "Jamais portés";
+stat_to_give = "À donner";
+stat_to_recycle = "À recycler";
+stat_to_sell = "À vendre";
+stat_kept = "Conservés";
+stat_avg_wear = "Portés en moy.";
+stat_categories = "Catégories";
+stat_most_worn = "Ton préféré ❤️";
+stat_awareness_personal = "%d%% de ta garde-robe n'a jamais été portée. Et si tu faisais du tri ?";
+
+// MARK: - Daily Tips
+tip_footer = "Une nouvelle pensée chaque jour";
+tip_footer_weather = "Une nouvelle pensée chaque jour, ainsi que la météo";
+tip_1 = "Savais-tu que 70%% des vêtements d'une garde-robe ne sont jamais portés ?";
+tip_2 = "L'industrie textile est la 2ème plus polluante au monde, juste après le pétrole.";
+tip_3 = "Un jean nécessite environ 7 500 litres d'eau pour être fabriqué.";
+tip_4 = "Donner un vêtement au lieu de le jeter, c'est lui offrir une seconde vie.";
+tip_5 = "Acheter moins mais mieux, c'est le secret d'une garde-robe responsable.";
+tip_6 = "Chaque année, 4 millions de tonnes de textiles sont jetées en Europe.";
+tip_7 = "Un vêtement porté 50 fois a 3 fois moins d'impact qu'un vêtement porté 10 fois.";
+tip_8 = "Avant d'acheter, demande-toi : est-ce que je le porterai au moins 30 fois ?";
+tip_9 = "Recycler un kilo de vêtements permet d'économiser 6 000 litres d'eau.";
+tip_10 = "La mode durable commence dans ton placard.";
+tip_11 = "Réparer un vêtement abîmé coûte moins cher que d'en racheter un neuf.";
+tip_12 = "Un t-shirt en coton parcourt en moyenne 40 000 km avant d'arriver dans ta garde-robe.";
+tip_13 = "Connaître ce que l'on possède, c'est déjà consommer moins.";
+tip_14 = "En France, on achète en moyenne 9,2 kg de vêtements par personne et par an.";
+tip_15 = "Les vêtements en matières naturelles se recyclent plus facilement.";
+tip_16 = "Échanger des vêtements entre amis, c'est gratuit et écologique.";
+tip_17 = "Un dressing bien organisé réduit les achats impulsifs de 30%%.";
+tip_18 = "La fast fashion produit 10%% des émissions mondiales de CO₂.";
+tip_19 = "Porter ce qu'on a déjà est le geste le plus écologique qui existe.";
+tip_20 = "Chaque vêtement donné peut aider quelqu'un dans le besoin.";
+
+// MARK: - Size Picker
+size_picker_title = "Taille";
+size_search = "Rechercher une taille...";
+size_section_letter = "Lettres";
+size_section_eu = "Tailles EU";
+size_section_shoes = "Chaussures";
+size_section_jeans = "Jeans";
+size_section_unique = "Taille unique";
+size_section_custom = "Mes tailles";
+size_custom_placeholder = "Ex : 41.5, XXS/S...";
+
+// MARK: - Search
+search_placeholder = "Rechercher un vêtement...";
+search_hint = "Recherche par nom, marque, couleur, taille, catégorie ou statut";
+search_no_results = "Aucun vêtement trouvé";
+search_results_count = "%d résultat(s)";
 
 // MARK: - App
 app_title = "My E‑Dressing";
