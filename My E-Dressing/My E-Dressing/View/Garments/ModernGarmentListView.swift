@@ -8,13 +8,14 @@
 import SwiftUI
 import CoreData
 
+/// Scrollable list of garments belonging to a specific dressing.
 struct ModernGarmentListView: View {
     @ObservedObject var dressing: Dressing
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss
     
     @State private var expandedGarmentId: UUID? = nil
-    
+
     @State private var showAddForm = false
     @State private var editingGarment: Garment?
     
@@ -54,21 +55,25 @@ struct ModernGarmentListView: View {
             }
             
             Button { showAddForm = true } label: {
-                HStack {
-                    Image(systemName: "tshirt")
-                    Text(String(localized: "add_title"))
-                }
-                .padding()
-                .background(Color.themeSecondary)
-                .foregroundColor(.white)
-                .cornerRadius(30)
-                .shadow(radius: 5)
+                Image(systemName: "plus")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color.themePrimary)
+                    .frame(width: 56, height: 56)
+                    .background(Color.themeSecondary)
+                    .clipShape(Circle())
+                    .shadow(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 4)
             }
-            .padding()
+            .padding(.trailing, 24)
+            .padding(.bottom, 100)
         }
-        .navigationTitle(dressing.name ?? String(localized: "dressing"))
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text(dressing.name ?? String(localized: "dressing"))
+                    .font(.serifTitle3)
+                    .foregroundStyle(Color.themeSecondary)
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button(String(localized: "sort_by_date"), action: {})
@@ -88,6 +93,7 @@ struct ModernGarmentListView: View {
     }
 }
 
+/// Placeholder shown when the dressing contains no garments.
 struct EmptyStateView: View {
     var body: some View {
         VStack(spacing: 20) {
@@ -95,10 +101,10 @@ struct EmptyStateView: View {
                 .font(.system(size: 60))
                 .foregroundStyle(Color.themeSecondary.opacity(0.2))
             Text(String(localized: "empty_dressing_title"))
-                .font(.title3)
+                .font(.serifTitle3)
                 .foregroundStyle(Color.themeSecondary)
             Text(String(localized: "empty_dressing_subtitle"))
-                .font(.caption)
+                .font(.sansCaption)
                 .foregroundStyle(.secondary)
         }
         .padding(.top, 100)
