@@ -47,6 +47,14 @@ empty_dressing_title = "Ce dressing est vide";
 empty_dressing_subtitle = "Ajoutez votre premier vêtement en appuyant sur le bouton +";
 edit_add_photos = "Modifier";
 
+// MARK: - Photo Source
+photo_source_camera_short = "Photo";
+photo_source_library_short = "Galerie";
+camera_unavailable = "La caméra n'est pas disponible sur cet appareil.";
+camera_access_denied_title = "Accès caméra refusé";
+camera_access_denied_message = "Autorisez l'accès à la caméra dans les réglages pour prendre des photos.";
+camera_open_settings = "Ouvrir les réglages";
+
 // MARK: - Garment Form
 photos_title = "Photos";
 photo_required = "Au moins une photo est requise";

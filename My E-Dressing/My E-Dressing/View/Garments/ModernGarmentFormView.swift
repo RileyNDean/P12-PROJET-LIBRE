@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import UIKit
+import AVFoundation
 
 /// Form view for creating or editing a garment, including photos, metadata and status.
 struct ModernGarmentFormView: View {
@@ -29,6 +30,10 @@ struct ModernGarmentFormView: View {
     @State private var workingPhotoItems: [PhotoItem] = []
     @State private var isShowingPicker: Bool = false
     @State private var pickerSelectedImages: [UIImage] = []
+    @State private var isShowingCamera: Bool = false
+    @State private var isShowingCameraDeniedAlert: Bool = false
+    @State private var isShowingAlert: Bool = false
+    @State private var alertMessage: String = ""
 
     var body: some View {
         NavigationStack {
@@ -64,12 +69,31 @@ struct ModernGarmentFormView: View {
             .sheet(isPresented: $isShowingPicker) {
                 ImagePickerMulti(images: $pickerSelectedImages)
             }
+            .fullScreenCover(isPresented: $isShowingCamera) {
+                CameraPicker { image in
+                    let item = PhotoItem.new(image: image)
+                    workingPhotoItems.append(item)
+                }
+            }
+            .alert(String(localized: "camera_access_denied_title"), isPresented: $isShowingCameraDeniedAlert) {
+                Button(String(localized: "camera_open_settings")) {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button(String(localized: "cancel"), role: .cancel) {}
+            } message: {
+                Text(String(localized: "camera_access_denied_message"))
+            }
             .onChange(of: pickerSelectedImages) { _, newImages in
                 let items = newImages.map { PhotoItem.new(image: $0) }
                 workingPhotoItems.append(contentsOf: items)
                 pickerSelectedImages.removeAll()
             }
             .onAppear(perform: loadData)
+            .alert(String(localized: "error_title"), isPresented: $isShowingAlert) {
+                Button(String(localized: "ok"), role: .cancel) {}
+            } message: { Text(alertMessage) }
         }
     }
 
@@ -82,12 +106,31 @@ struct ModernGarmentFormView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    Button { isShowingPicker = true } label: {
+                    Button { requestCameraAccess() } label: {
                         VStack {
                             Image(systemName: "camera.fill")
                                 .font(.serifTitle3)
                                 .foregroundStyle(Color.themePrimary)
-                            Text(String(localized: "add_title"))
+                            Text(String(localized: "photo_source_camera_short"))
+                                .font(.sansCaption)
+                                .foregroundStyle(Color.themePrimary)
+                        }
+                        .frame(width: 80, height: 100)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.themePrimary.opacity(0.3),
+                                        style: StrokeStyle(dash: [5]))
+                        )
+                    }
+
+                    Button { isShowingPicker = true } label: {
+                        VStack {
+                            Image(systemName: "photo.on.rectangle")
+                                .font(.serifTitle3)
+                                .foregroundStyle(Color.themePrimary)
+                            Text(String(localized: "photo_source_library_short"))
                                 .font(.sansCaption)
                                 .foregroundStyle(Color.themePrimary)
                         }
@@ -183,6 +226,29 @@ struct ModernGarmentFormView: View {
         }
     }
     
+    /// Requests camera access and presents the camera if authorized.
+    func requestCameraAccess() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            alertMessage = String(localized: "camera_unavailable")
+            isShowingAlert = true
+            return
+        }
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            isShowingCamera = true
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    if granted { isShowingCamera = true }
+                }
+            }
+        case .denied, .restricted:
+            isShowingCameraDeniedAlert = true
+        @unknown default:
+            break
+        }
+    }
+
     /// Loads garment data when editing.
     func loadData() {
         if let g = editingGarment {

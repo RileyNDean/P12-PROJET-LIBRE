@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import UIKit
+import AVFoundation
 
 /// Form for creating or editing a garment (photos, metadata, category, size, status).
 struct GarmentFormView: View {
@@ -35,6 +36,8 @@ struct GarmentFormView: View {
     @State private var alertMessage: String = ""
     @State private var isShowingCategoryPicker: Bool = false
     @State private var isShowingSizePicker: Bool = false
+    @State private var isShowingCamera: Bool = false
+    @State private var isShowingCameraDeniedAlert: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -68,12 +71,31 @@ struct GarmentFormView: View {
 
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 12) {
-                                    Button { isShowingPicker = true } label: {
+                                    Button { requestCameraAccess() } label: {
                                         VStack(spacing: 6) {
                                             Image(systemName: "camera.fill")
                                                 .font(.system(size: 22))
                                                 .foregroundStyle(Color.themePrimary)
-                                            Text(String(localized: "add_title"))
+                                            Text(String(localized: "photo_source_camera_short"))
+                                                .font(.sansCaption)
+                                                .foregroundStyle(Color.themePrimary)
+                                        }
+                                        .frame(width: 80, height: 100)
+                                        .background(Color.white)
+                                        .cornerRadius(12)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.themePrimary.opacity(0.3),
+                                                        style: StrokeStyle(lineWidth: 1.5, dash: [6]))
+                                        )
+                                    }
+
+                                    Button { isShowingPicker = true } label: {
+                                        VStack(spacing: 6) {
+                                            Image(systemName: "photo.on.rectangle")
+                                                .font(.system(size: 22))
+                                                .foregroundStyle(Color.themePrimary)
+                                            Text(String(localized: "photo_source_library_short"))
                                                 .font(.sansCaption)
                                                 .foregroundStyle(Color.themePrimary)
                                         }
@@ -233,11 +255,27 @@ struct GarmentFormView: View {
             .sheet(isPresented: $isShowingPicker) {
                 ImagePickerMulti(images: $pickerSelectedImages)
             }
+            .fullScreenCover(isPresented: $isShowingCamera) {
+                CameraPicker { image in
+                    let item = PhotoItem.new(image: image)
+                    workingPhotoItems.append(item)
+                }
+            }
             .sheet(isPresented: $isShowingCategoryPicker) {
                 CategoryPickerView(selectedCategoryId: categoryOptionalId)
             }
             .sheet(isPresented: $isShowingSizePicker) {
                 SizePickerView(selectedSizeId: sizeOptionalId)
+            }
+            .alert(String(localized: "camera_access_denied_title"), isPresented: $isShowingCameraDeniedAlert) {
+                Button(String(localized: "camera_open_settings")) {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button(String(localized: "cancel"), role: .cancel) {}
+            } message: {
+                Text(String(localized: "camera_access_denied_message"))
             }
             .onChange(of: pickerSelectedImages) { _, selectedImages in
                 let newItems = selectedImages.map { PhotoItem.new(image: $0) }
@@ -305,6 +343,31 @@ struct GarmentFormView: View {
         workingPhotoItems = garment.allLoadedImages.compactMap { item in
             guard let photo = garment.orderedPhotos.first(where: { $0.id == item.id }) else { return nil }
             return .existing(photoObject: photo, thumbnail: item.image)
+        }
+    }
+
+    // MARK: - Camera
+
+    /// Requests camera access and presents the camera if authorized.
+    private func requestCameraAccess() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            alertMessage = String(localized: "camera_unavailable")
+            isShowingAlert = true
+            return
+        }
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            isShowingCamera = true
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    if granted { isShowingCamera = true }
+                }
+            }
+        case .denied, .restricted:
+            isShowingCameraDeniedAlert = true
+        @unknown default:
+            break
         }
     }
 

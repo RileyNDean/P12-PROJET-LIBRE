@@ -397,6 +397,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "My E-Dressing utilise la caméra pour photographier vos vêtements.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "My E-Dressing utilise votre position pour afficher la météo du jour.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -440,6 +441,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "My E-Dressing utilise la caméra pour photographier vos vêtements.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "My E-Dressing utilise votre position pour afficher la météo du jour.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
