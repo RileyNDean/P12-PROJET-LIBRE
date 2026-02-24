@@ -594,6 +594,7 @@ struct WearCountCardView: View {
 
             HStack(spacing: 16) {
                 Button {
+                    commitEdit()
                     if wearCount > 0 { wearCount -= 1 }
                     editText = "\(wearCount)"
                 } label: {
@@ -618,6 +619,12 @@ struct WearCountCardView: View {
                         .onChange(of: textFieldFocused) { _, focused in
                             if !focused { commitEdit() }
                         }
+                        .onChange(of: editText) { _, newValue in
+                            // Apply value in real time so wearCount stays in sync
+                            if let value = Int32(newValue), value >= 0, value <= 999 {
+                                wearCount = value
+                            }
+                        }
                 } else {
                     Text("\(wearCount)")
                         .font(.system(size: 28, weight: .bold, design: .rounded))
@@ -631,6 +638,7 @@ struct WearCountCardView: View {
                 }
 
                 Button {
+                    commitEdit()
                     if wearCount < 999 { wearCount += 1 }
                     editText = "\(wearCount)"
                 } label: {

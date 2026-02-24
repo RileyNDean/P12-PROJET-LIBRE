@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Expandable card displaying a garment's summary and details.
 struct ModernGarmentRow: View {
-    let garment: Garment
+    @ObservedObject var garment: Garment
     @Binding var expandedGarmentId: UUID?
     let onEdit: () -> Void
     let onDelete: () -> Void
